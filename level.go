@@ -28,6 +28,8 @@ var (
 	}
 )
 
+type Level byte
+
 func (this Level) String() string {
 	return names[this]
 }
