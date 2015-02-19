@@ -1,19 +1,22 @@
 package logging
 
 import (
+	"fmt"
 	"io"
-
-	"github.com/wsxiaoys/terminal"
 )
 
-var colors = []string{
-	"m", // Fatal, magenta
-	"r", // Error, red
-	"y", // Warn, yellow
-	"g", // Notice, green
-	"w", // Info, white
-	"c", // Debug, cyan
+var colors = [][]byte{
+	[]byte("\033[35m"), // Fatal, magenta
+	[]byte("\033[31m"), // Error, red
+	[]byte("\033[33m"), // Warn, yellow
+	[]byte("\033[32m"), // Notice, green
+	[]byte("\033[37m"), // Info, white
+	[]byte("\033[36m"), // Debug, cyan
 }
+
+var reset = []byte("\033[0m")
+var newline = []byte("\n")
+var whitespace = []byte(" ")
 
 type ColoredTextFormatter struct{}
 
@@ -21,23 +24,30 @@ func (this ColoredTextFormatter) FormatTo(writer io.Writer, entry Entry) error {
 	buffer := NewBuffer()
 	defer buffer.Free()
 
-	term := terminal.TerminalWriter{buffer}
 	color := colors[entry.Level]
 
-	term.Color(color).Print(entry.Timestamp.Format("15:04:05.000 "))
-	term.Print(entry.Level.FixedString())
-	term.Print(" ").Print(entry.Module).Print(" ").Reset()
-	term.Print(" ").Print(entry.Message)
+	buffer.Write(color)
+	buffer.WriteString(entry.Timestamp.Format("15:04:05.000 "))
+	buffer.WriteString(entry.Level.FixedString())
+	buffer.Write(whitespace)
+	buffer.WriteString(entry.Module.String())
+	buffer.Write(whitespace)
+	buffer.Write(reset)
+	buffer.WriteString(entry.Message)
 
 	if entry.Fields.Any() {
-		term.Print("\t")
+		buffer.WriteString("\t")
 		for key, value := range entry.Fields {
-			term.Color(color).Print(" ").Print(key).Reset().Print("=")
-			term.Print(value)
+			buffer.Write(color)
+			buffer.Write(whitespace)
+			buffer.WriteString(key)
+			buffer.Write(reset)
+			buffer.WriteString("=")
+			buffer.WriteString(fmt.Sprint(value))
 		}
 	}
 
-	term.Print("\n")
+	buffer.Write(newline)
 
 	_, err := buffer.WriteTo(writer)
 	return err
