@@ -26,7 +26,7 @@ func (this ColoredTextFormatter) FormatTo(writer io.Writer, entry Entry) error {
 
 	term.Color(color).Print(entry.Timestamp.Format("15:04:05.000 "))
 	term.Print(entry.Level.FixedString())
-	term.Print(" [").Print(entry.Module).Print("] ").Reset()
+	term.Print(" ").Print(entry.Module).Print(" ").Reset()
 	term.Print(" ").Print(entry.Message)
 
 	if len(entry.Fields) > 0 {
