@@ -10,7 +10,7 @@ const (
 )
 
 var (
-	names = []string{
+	names = [...]string{
 		"FATAL",
 		"ERROR",
 		"WARN",
@@ -18,7 +18,7 @@ var (
 		"INFO",
 		"DEBUG",
 	}
-	fixedNames = []string{
+	fixedNames = [...]string{
 		"FATAL ",
 		"ERROR ",
 		"WARN  ",
