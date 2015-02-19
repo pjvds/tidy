@@ -29,10 +29,10 @@ func (this ColoredTextFormatter) FormatTo(writer io.Writer, entry Entry) error {
 	term.Print(" ").Print(entry.Module).Print(" ").Reset()
 	term.Print(" ").Print(entry.Message)
 
-	if len(entry.Fields) > 0 {
+	if entry.Fields.Any() {
 		term.Print("\t")
 		for key, value := range entry.Fields {
-			term.Color(color).Print(" ").Print(key).Print("=").Reset()
+			term.Color(color).Print(" ").Print(key).Reset().Print("=")
 			term.Print(value)
 		}
 	}
