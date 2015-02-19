@@ -24,7 +24,7 @@ func (this ColoredTextFormatter) FormatTo(writer io.Writer, entry Entry) error {
 	term := terminal.TerminalWriter{buffer}
 	color := colors[entry.Level]
 
-	term.Color(color).Print(entry.Timestamp.Format("15:04:05"))
+	term.Color(color).Print(entry.Timestamp.Format("15:04:05.000 "))
 	term.Print(entry.Level.FixedString())
 	term.Print(" [").Print(entry.Module).Print("] ").Reset()
 	term.Print(" ").Print(entry.Message)
