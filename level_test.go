@@ -1,10 +1,35 @@
 package logging
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
+
+// An level allows itself and above.
+func ExampleLevel_Allows_allowing() {
+	fmt.Println(NOTICE.Allows(NOTICE))
+	fmt.Println(NOTICE.Allows(WARN))
+	fmt.Println(NOTICE.Allows(ERROR))
+	fmt.Println(NOTICE.Allows(FATAL))
+
+	// output:
+	// true
+	// true
+	// true
+	// true
+}
+
+// An level disallows everything below itself.
+func ExampleLevel_Allows_disallowing() {
+	fmt.Println(NOTICE.Allows(DEBUG))
+	fmt.Println(NOTICE.Allows(INFO))
+
+	// output:
+	// false
+	// false
+}
 
 func TestAllowsDebug(t *testing.T) {
 	assert.True(t, DEBUG.Allows(FATAL))
