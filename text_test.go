@@ -81,9 +81,9 @@ func BenchmarkColoredTextFormatter(b *testing.B) {
 	length := int64(lengthRecorder.Length)
 
 	b.ResetTimer()
+	b.SetBytes(length)
 
 	for n := 0; n < b.N; n++ {
-		b.SetBytes(length)
 		formatter.FormatTo(devNull, entry)
 	}
 }
