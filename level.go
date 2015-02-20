@@ -30,6 +30,14 @@ var (
 
 type Level byte
 
+// Allows returns true if the level allows the specified level;
+// otherwise false. An level always allows itself and every other
+// level that is above it. INFO would allow INFO and WARN, but
+// it would not allow DEBUG.
+func (this Level) Allows(other Level) bool {
+	return this >= other
+}
+
 func (this Level) String() string {
 	return names[this]
 }
