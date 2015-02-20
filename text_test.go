@@ -1,6 +1,7 @@
 package logging
 
 import (
+	"io/ioutil"
 	"testing"
 	"time"
 )
@@ -42,7 +43,6 @@ func BenchmarkColoredTextFormatterParallel(b *testing.B) {
 
 	formatter := &ColoredTextFormatter{}
 	lengthRecorder := &LengthRecorder{}
-	devNull := &DevNullWriter{}
 
 	if err := formatter.FormatTo(lengthRecorder, entry); err != nil {
 		b.Fatalf("failed to write: %v", err.Error())
@@ -54,7 +54,7 @@ func BenchmarkColoredTextFormatterParallel(b *testing.B) {
 
 	b.RunParallel(func(pb *testing.PB) {
 		for pb.Next() {
-			formatter.FormatTo(devNull, entry)
+			formatter.FormatTo(ioutil.Discard, entry)
 		}
 	})
 }
