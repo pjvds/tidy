@@ -45,3 +45,27 @@ func TestAllowsFatal(t *testing.T) {
 	assert.False(t, FATAL.Allows(INFO))
 	assert.False(t, FATAL.Allows(DEBUG))
 }
+
+func TestFatal(t *testing.T) {
+	assert.Equal(t, "FATAL", FATAL.String())
+}
+
+func TestError(t *testing.T) {
+	assert.Equal(t, "ERROR", ERROR.String())
+}
+
+func TestWarn(t *testing.T) {
+	assert.Equal(t, "WARN", WARN.String())
+}
+
+func TestNotice(t *testing.T) {
+	assert.Equal(t, "NOTICE", NOTICE.String())
+}
+
+func TestInfo(t *testing.T) {
+	assert.Equal(t, "INFO", INFO.String())
+}
+
+func TestDebug(t *testing.T) {
+	assert.Equal(t, "DEBUG", DEBUG.String())
+}
