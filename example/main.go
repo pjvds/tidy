@@ -3,7 +3,7 @@ package main
 import "github.com/pjvds/logging"
 
 func main() {
-	log := logging.NewLogger("main")
+	log := logging.CreateOrGetLogger("main")
 	log.Fatal("fatal")
 	log.Error("error")
 	log.WithField("week", 8).Warn("warning entry")
