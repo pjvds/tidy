@@ -2,13 +2,18 @@ package logging
 
 import "os"
 
-type ColoredConsoleBackend struct {
-	formatter ColoredTextFormatter
-	Level     Level
+type LeveledBackend struct {
+	Level Level
 }
 
-func (this *ColoredConsoleBackend) IsEnabledFor(level Level, module ModuleId) bool {
+func (this LeveledBackend) IsEnabledFor(level Level, module ModuleId) bool {
 	return this.Level >= level
+}
+
+type ColoredConsoleBackend struct {
+	LeveledBackend
+
+	formatter ColoredTextFormatter
 }
 
 func (this *ColoredConsoleBackend) Log(entry Entry) {
