@@ -27,19 +27,20 @@ func (this ColoredTextFormatter) FormatTo(writer io.Writer, entry Entry) error {
 	color := colors[entry.Level]
 
 	buffer.Write(color)
-	buffer.WriteString(entry.Timestamp.Format("15:04:05.000 "))
-	buffer.WriteString(entry.Level.FixedString())
-	buffer.Write(whitespace)
+	buffer.WriteString(entry.Timestamp.Format("15:04:05 "))
+	buffer.WriteString(entry.Level.String())
+	buffer.WriteString(" ⟨")
 	buffer.WriteString(entry.Module.String())
-	buffer.Write(whitespace)
+	buffer.WriteString("⟩: ")
 	buffer.Write(reset)
 	buffer.WriteString(entry.Message)
 
 	if entry.Fields.Any() {
-		buffer.WriteString("\t")
+		buffer.Write(color)
+		buffer.WriteString("\t→")
 		for key, value := range entry.Fields {
-			buffer.Write(color)
 			buffer.Write(whitespace)
+			buffer.Write(color)
 			buffer.WriteString(key)
 			buffer.Write(reset)
 			buffer.WriteString("=")
