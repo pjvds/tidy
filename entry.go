@@ -8,7 +8,7 @@ type Entry struct {
 	Timestamp time.Time
 
 	// The module this entry belongs to.
-	Module ModuleId
+	Module Module
 
 	// The level of this entry, eq: DEBUG, WARN, FATAL.
 	Level Level

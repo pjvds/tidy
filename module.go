@@ -7,13 +7,13 @@ import (
 	"strings"
 )
 
-type ModuleId string
+type Module string
 
-func GetModule(value interface{}) ModuleId {
-	return ModuleId(reflect.TypeOf(value).PkgPath())
+func GetModule(value interface{}) Module {
+	return Module(reflect.TypeOf(value).PkgPath())
 }
 
-func GetModuleFromCaller(depth int) ModuleId {
+func GetModuleFromCaller(depth int) Module {
 	pc, _, _, ok := runtime.Caller(1 + depth)
 
 	if !ok {
@@ -30,9 +30,9 @@ func GetModuleFromCaller(depth int) ModuleId {
 	lastSlashIndex := strings.LastIndex(name, "/")
 	lastDotIndex := strings.LastIndex(name, ".")
 
-	return ModuleId(name[lastSlashIndex+1 : lastDotIndex])
+	return Module(name[lastSlashIndex+1 : lastDotIndex])
 }
 
-func (this ModuleId) String() string {
+func (this Module) String() string {
 	return string(this)
 }

@@ -25,7 +25,7 @@ func (this *ColoredConsoleBackend) Flush() error {
 }
 
 type Backend interface {
-	IsEnabledFor(level Level, module ModuleId) bool
+	IsEnabledFor(level Level, module Module) bool
 	Log(entry Entry)
 	Flush() error
 }
