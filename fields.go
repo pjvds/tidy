@@ -1,4 +1,4 @@
-package logging
+package tidy
 
 type Fields map[string]interface{}
 

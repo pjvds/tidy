@@ -1,16 +1,16 @@
 package main
 
-import "github.com/pjvds/logging"
+import "github.com/pjvds/tidy"
 
 func main() {
-	log := logging.CreateOrGetLogger("main")
+	log := tidy.CreateOrGetLogger("main")
 	log.Fatal("fatal")
 	log.Error("error")
 	log.WithField("week", 8).Warn("warning entry")
 	log.Info("info")
 	log.Debug("debug")
 
-	log.WithFields(logging.Fields{
+	log.WithFields(tidy.Fields{
 		"foo": "bar",
 		"baz": 42,
 	}).Info("hello world")

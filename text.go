@@ -1,4 +1,4 @@
-package logging
+package tidy
 
 import (
 	"fmt"
@@ -31,7 +31,8 @@ func (this ColoredTextFormatter) FormatTo(writer io.Writer, entry Entry) error {
 	buffer.WriteString(entry.Level.String())
 	buffer.WriteString(" ⟨")
 	buffer.WriteString(entry.Module.String())
-	buffer.WriteString("⟩: ")
+	buffer.WriteString("⟩")
+	buffer.WriteString(": ")
 	buffer.Write(reset)
 	buffer.WriteString(entry.Message)
 

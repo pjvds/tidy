@@ -1,4 +1,4 @@
-package logging
+package tidy
 
 const (
 	FATAL Level = iota
