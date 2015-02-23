@@ -31,7 +31,7 @@ func (*DevNullWriter) Write(data []byte) (int, error) {
 
 func BenchmarkColoredTextFormatterParallel(b *testing.B) {
 	entry := Entry{
-		Module:    ModuleId("benchmark"),
+		Module:    Module("benchmark"),
 		Timestamp: time.Now(),
 		Level:     NOTICE,
 		Message:   "bazinga",
@@ -61,7 +61,7 @@ func BenchmarkColoredTextFormatterParallel(b *testing.B) {
 
 func BenchmarkColoredTextFormatter(b *testing.B) {
 	entry := Entry{
-		Module:    ModuleId("benchmark"),
+		Module:    Module("benchmark"),
 		Timestamp: time.Now(),
 		Level:     NOTICE,
 		Message:   "bazinga",
