@@ -6,7 +6,7 @@ import (
 )
 
 type Logger struct {
-	module ModuleId
+	module Module
 	fields Fields
 
 	backend Backend
@@ -22,7 +22,7 @@ func init() {
 
 func CreateOrGetLogger(module string) *Logger {
 	return &Logger{
-		module:  ModuleId(module),
+		module:  Module(module),
 		backend: defaulBackend,
 	}
 }

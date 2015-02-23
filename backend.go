@@ -6,7 +6,7 @@ type LeveledBackend struct {
 	Level Level
 }
 
-func (this LeveledBackend) IsEnabledFor(level Level, module ModuleId) bool {
+func (this LeveledBackend) IsEnabledFor(level Level, module Module) bool {
 	return this.Level >= level
 }
 
