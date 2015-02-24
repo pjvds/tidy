@@ -1,11 +1,24 @@
 package tidy_test
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/pjvds/tidy"
 	"github.com/stretchr/testify/assert"
 )
+
+func ExampleFields_Any() {
+	fields := tidy.Fields{}
+	fmt.Println(fields.Any())
+
+	fields["foo"] = "bar"
+	fmt.Println(fields.Any())
+
+	// output:
+	// false
+	// true
+}
 
 func TestFieldsInitialLen(t *testing.T) {
 	var uninitialized tidy.Fields
