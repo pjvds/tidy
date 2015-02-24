@@ -1,5 +1,13 @@
 package tidy
 
+// Fields is a simple bag of key and value pairs that can
+// be added to a log. Mostly used as an argument to the
+// `Logger.WithFields` method. Fields can be created like a map:
+//
+//     fields := tidy.Fields{
+//         "username": "foobar",
+//         "count": 42,
+//     }
 type Fields map[string]interface{}
 
 // Len returns the number of fields in the instance.
