@@ -1,22 +1,23 @@
-package tidy
+package tidy_test
 
 import (
 	"testing"
 
+	"github.com/pjvds/tidy"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestFieldsInitialLen(t *testing.T) {
-	var uninitialized Fields
+	var uninitialized tidy.Fields
 	assert.Equal(t, 0, uninitialized.Len())
 
-	assert.Equal(t, 1, Fields{
+	assert.Equal(t, 1, tidy.Fields{
 		"foo": "bar",
 	}.Len())
 }
 
 func TestFieldsClone(t *testing.T) {
-	fields := Fields{
+	fields := tidy.Fields{
 		"foo": "bar",
 		"baz": 42,
 	}
@@ -30,7 +31,7 @@ func TestFieldsClone(t *testing.T) {
 }
 
 func TestFieldsCloneDoesNotEffectLen(t *testing.T) {
-	fields := Fields{
+	fields := tidy.Fields{
 		"foo": "bar",
 		"baz": 42,
 	}
