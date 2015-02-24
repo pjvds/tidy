@@ -8,27 +8,21 @@ import (
 )
 
 // An level allows itself and above.
-func ExampleLevel_Allows_allowing() {
+func ExampleLevel_Allows() {
+	fmt.Println(NOTICE.Allows(DEBUG))
+	fmt.Println(NOTICE.Allows(INFO))
 	fmt.Println(NOTICE.Allows(NOTICE))
 	fmt.Println(NOTICE.Allows(WARN))
 	fmt.Println(NOTICE.Allows(ERROR))
 	fmt.Println(NOTICE.Allows(FATAL))
 
 	// output:
-	// true
-	// true
-	// true
-	// true
-}
-
-// An level disallows everything below itself.
-func ExampleLevel_Allows_disallowing() {
-	fmt.Println(NOTICE.Allows(DEBUG))
-	fmt.Println(NOTICE.Allows(INFO))
-
-	// output:
 	// false
 	// false
+	// true
+	// true
+	// true
+	// true
 }
 
 func TestAllowsDebug(t *testing.T) {
