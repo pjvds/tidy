@@ -46,4 +46,6 @@ func TestBufferWriteTwoDigits(t *testing.T) {
 	assert.Equal(t, writeAndReturnString(55), "55")
 	buffer.Reset()
 
+	assert.Equal(t, writeAndReturnString(168), "68")
+	buffer.Reset()
 }
