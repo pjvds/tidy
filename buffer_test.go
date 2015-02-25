@@ -31,21 +31,21 @@ func TestBufferWriteTwoDigits(t *testing.T) {
 		return string(buffer.Bytes())
 	}
 
-	assert.Equal(t, writeAndReturnString(1), "01")
+	assert.Equal(t, "01", writeAndReturnString(1))
 	buffer.Reset()
 
-	assert.Equal(t, writeAndReturnString(9), "09")
+	assert.Equal(t, "09", writeAndReturnString(9))
 	buffer.Reset()
 
-	assert.Equal(t, writeAndReturnString(10), "10")
+	assert.Equal(t, "10", writeAndReturnString(10))
 	buffer.Reset()
 
-	assert.Equal(t, writeAndReturnString(12), "12")
+	assert.Equal(t, "12", writeAndReturnString(12))
 	buffer.Reset()
 
-	assert.Equal(t, writeAndReturnString(55), "55")
+	assert.Equal(t, "55", writeAndReturnString(55))
 	buffer.Reset()
 
-	assert.Equal(t, writeAndReturnString(168), "68")
+	assert.Equal(t, "68", writeAndReturnString(168))
 	buffer.Reset()
 }
