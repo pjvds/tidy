@@ -21,3 +21,29 @@ func TestNewBufferIsAlwaysEmpty(t *testing.T) {
 		buffer.Free()
 	}
 }
+
+func TestBufferWriteTwoDigits(t *testing.T) {
+	buffer := tidy.NewBuffer()
+	defer buffer.Free()
+
+	writeAndReturnString := func(n int) string {
+		buffer.WriteTwoDigits(n)
+		return string(buffer.Bytes())
+	}
+
+	assert.Equal(t, writeAndReturnString(1), "01")
+	buffer.Reset()
+
+	assert.Equal(t, writeAndReturnString(9), "09")
+	buffer.Reset()
+
+	assert.Equal(t, writeAndReturnString(10), "10")
+	buffer.Reset()
+
+	assert.Equal(t, writeAndReturnString(12), "12")
+	buffer.Reset()
+
+	assert.Equal(t, writeAndReturnString(55), "55")
+	buffer.Reset()
+
+}
