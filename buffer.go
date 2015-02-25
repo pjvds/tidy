@@ -29,7 +29,7 @@ var digits = []byte("0123456789")
 
 func (this *FreeableBuffer) WriteTwoDigits(value int) {
 	this.Write([]byte{
-		digits[value/10],
+		digits[(value/10)%10],
 		digits[value%10],
 	})
 }
