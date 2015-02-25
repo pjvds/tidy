@@ -2,6 +2,7 @@ package tidy_test
 
 import (
 	"testing"
+	"time"
 
 	"github.com/pjvds/tidy"
 	"github.com/stretchr/testify/assert"
@@ -48,4 +49,29 @@ func TestBufferWriteTwoDigits(t *testing.T) {
 
 	assert.Equal(t, "68", writeAndReturnString(168))
 	buffer.Reset()
+}
+
+func BenchmarkClockWritingWithWriteTwoDigits(b *testing.B) {
+	buffer := tidy.NewBuffer()
+	hour, minute, second := time.Now().Clock()
+
+	for n := 0; n < b.N; n++ {
+		buffer.Grow(7)
+		buffer.WriteTwoDigits(hour)
+		buffer.WriteRune(':')
+		buffer.WriteTwoDigits(minute)
+		buffer.WriteRune(':')
+		buffer.WriteTwoDigits(second)
+	}
+}
+
+func BenchmarkClockWritingWithTimeFormat(b *testing.B) {
+	buffer := tidy.NewBuffer()
+
+	clock := time.Now()
+
+	for n := 0; n < b.N; n++ {
+		buffer.Grow(7)
+		buffer.WriteString(clock.Format("15:04:05"))
+	}
 }
