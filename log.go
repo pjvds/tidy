@@ -20,10 +20,24 @@ func init() {
 	}
 }
 
+func GetLogger() *Logger {
+	module := GetModuleFromCaller(1)
+	logger := newLogger(module, defaulBackend)
+
+	return &logger
+}
+
 func CreateOrGetLogger(module string) *Logger {
 	return &Logger{
 		module:  Module(module),
 		backend: defaulBackend,
+	}
+}
+
+func newLogger(module Module, backend Backend) Logger {
+	return Logger{
+		module:  module,
+		backend: backend,
 	}
 }
 
