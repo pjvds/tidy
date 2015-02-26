@@ -10,6 +10,14 @@ const (
 )
 
 var (
+	chars = [...]string{
+		string(names[FATAL][0]),
+		string(names[ERROR][0]),
+		string(names[WARN][0]),
+		string(names[NOTICE][0]),
+		string(names[INFO][0]),
+		string(names[DEBUG][0]),
+	}
 	names = [...]string{
 		"FATAL",
 		"ERROR",
