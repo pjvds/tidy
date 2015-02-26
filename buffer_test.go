@@ -52,6 +52,8 @@ func TestBufferWriteTwoDigits(t *testing.T) {
 }
 
 func BenchmarkClockWritingWithWriteTwoDigits(b *testing.B) {
+	b.ReportAllocs()
+
 	buffer := tidy.NewBuffer()
 	hour, minute, second := time.Now().Clock()
 
@@ -66,8 +68,9 @@ func BenchmarkClockWritingWithWriteTwoDigits(b *testing.B) {
 }
 
 func BenchmarkClockWritingWithTimeFormat(b *testing.B) {
-	buffer := tidy.NewBuffer()
+	b.ReportAllocs()
 
+	buffer := tidy.NewBuffer()
 	clock := time.Now()
 
 	for n := 0; n < b.N; n++ {
