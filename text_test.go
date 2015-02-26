@@ -1,15 +1,9 @@
 package tidy
 
 import (
-	"io/ioutil"
 	"testing"
 	"time"
 )
-
-var smallFields = Fields{
-	"foo": "bar",
-	"baz": 42,
-}
 
 type LengthRecorder struct {
 	Length int
@@ -29,20 +23,88 @@ func (*DevNullWriter) Write(data []byte) (int, error) {
 	return len(data), nil
 }
 
-func BenchmarkColoredTextFormatterParallel(b *testing.B) {
+// smallFields is a small size data set for benchmarking
+var smallFields = Fields{
+	"foo":   "bar",
+	"baz":   "qux",
+	"one":   "two",
+	"three": "four",
+}
+
+// largeFields is a large size data set for benchmarking
+var largeFields = Fields{
+	"foo":       "bar",
+	"baz":       "qux",
+	"one":       "two",
+	"three":     "four",
+	"five":      "six",
+	"seven":     "eight",
+	"nine":      "ten",
+	"eleven":    "twelve",
+	"thirteen":  "fourteen",
+	"fifteen":   "sixteen",
+	"seventeen": "eighteen",
+	"nineteen":  "twenty",
+	"a":         "b",
+	"c":         "d",
+	"e":         "f",
+	"g":         "h",
+	"i":         "j",
+	"k":         "l",
+	"m":         "n",
+	"o":         "p",
+	"q":         "r",
+	"s":         "t",
+	"u":         "v",
+	"w":         "x",
+	"y":         "z",
+	"this":      "will",
+	"make":      "thirty",
+	"entries":   "yeah",
+}
+
+// func BenchmarkColoredTextFormatterParallel(b *testing.B) {
+// 	entry := Entry{
+// 		Module:    Module("benchmark"),
+// 		Timestamp: time.Now(),
+// 		Level:     NOTICE,
+// 		Message:   "bazinga",
+// 		Fields: Fields{
+// 			"foo": "bar",
+// 			"baz": 42,
+// 		},
+// 	}
+
+// 	formatter := &ColoredTextFormatter{}
+// 	lengthRecorder := &LengthRecorder{}
+
+// 	if err := formatter.FormatTo(lengthRecorder, entry); err != nil {
+// 		b.Fatalf("failed to write: %v", err.Error())
+// 	}
+// 	length := int64(lengthRecorder.Length)
+
+// 	b.ResetTimer()
+// 	b.SetBytes(length)
+
+// 	b.RunParallel(func(pb *testing.PB) {
+// 		for pb.Next() {
+// 			formatter.FormatTo(ioutil.Discard, entry)
+// 		}
+// 	})
+// }
+
+func BenchmarkSmallTextColoredTextFormatter(b *testing.B) {
 	entry := Entry{
 		Module:    Module("benchmark"),
 		Timestamp: time.Now(),
-		Level:     NOTICE,
-		Message:   "bazinga",
-		Fields: Fields{
-			"foo": "bar",
-			"baz": 42,
-		},
+		Level:     INFO,
+		Message:   "message",
+		Fields:    smallFields,
 	}
 
 	formatter := &ColoredTextFormatter{}
 	lengthRecorder := &LengthRecorder{}
+	devNull := &DevNullWriter{}
 
 	if err := formatter.FormatTo(lengthRecorder, entry); err != nil {
 		b.Fatalf("failed to write: %v", err.Error())
@@ -52,23 +114,18 @@ func BenchmarkColoredTextFormatterParallel(b *testing.B) {
 	b.ResetTimer()
 	b.SetBytes(length)
 
-	b.RunParallel(func(pb *testing.PB) {
-		for pb.Next() {
-			formatter.FormatTo(ioutil.Discard, entry)
-		}
-	})
+	for n := 0; n < b.N; n++ {
+		formatter.FormatTo(devNull, entry)
+	}
 }
 
-func BenchmarkColoredTextFormatter(b *testing.B) {
+func BenchmarkLargeTextColoredTextFormatter(b *testing.B) {
 	entry := Entry{
 		Module:    Module("benchmark"),
 		Timestamp: time.Now(),
-		Level:     NOTICE,
-		Message:   "bazinga",
-		Fields: Fields{
-			"foo": "bar",
-			"baz": 42,
-		},
+		Level:     INFO,
+		Message:   "message",
+		Fields:    largeFields,
 	}
 
 	formatter := &ColoredTextFormatter{}
