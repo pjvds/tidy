@@ -28,7 +28,7 @@ func (this ColoredTextFormatter) FormatTo(writer io.Writer, entry Entry) error {
 
 	buffer.Write(color)
 	buffer.WriteString(entry.Timestamp.Format("15:04:05 "))
-	buffer.WriteString(entry.Level.String())
+	buffer.WriteString(chars[entry.Level])
 	buffer.WriteString(" ⟨")
 	buffer.WriteString(entry.Module.String())
 	buffer.WriteString("⟩")
