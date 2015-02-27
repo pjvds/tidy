@@ -26,7 +26,10 @@ func GetModuleFromCaller(depth int) Module {
 		panic(errors.New("failed to get function from program counter"))
 	}
 
+	// The function name is the complete package path and function name without signature seperated by a dot.
+	// e.q.: github.com/pjvds/tidy.GetLogger
 	name := function.Name()
+
 	lastSlashIndex := strings.LastIndex(name, "/")
 	lastDotIndex := strings.LastIndex(name, ".")
 
