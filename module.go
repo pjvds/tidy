@@ -9,7 +9,7 @@ import (
 
 type Module string
 
-func GetModule(value interface{}) Module {
+func GetModuleFromValue(value interface{}) Module {
 	return Module(reflect.TypeOf(value).PkgPath())
 }
 

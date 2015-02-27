@@ -11,8 +11,8 @@ var moduleAtInit = tidy.GetModuleFromCaller(0)
 
 type MyStructure struct{}
 
-func TestGetModule(t *testing.T) {
-	module := tidy.GetModule(MyStructure{})
+func TestGetModuleFromValue(t *testing.T) {
+	module := tidy.GetModuleFromValue(MyStructure{})
 
 	assert.Equal(t, module.String(), "github.com/pjvds/tidy_test")
 }
