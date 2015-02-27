@@ -10,7 +10,7 @@ var colors = [][]byte{
 	[]byte("\033[31m"), // Error, red
 	[]byte("\033[33m"), // Warn, yellow
 	[]byte("\033[32m"), // Notice, green
-	[]byte("\033[37m"), // Info, white
+	[]byte(""),         // Info, default
 	[]byte("\033[36m"), // Debug, cyan
 }
 
