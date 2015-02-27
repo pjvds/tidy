@@ -9,10 +9,17 @@ var (
 	buffers *sync.Pool
 )
 
+const (
+	INITIAL_BUFFER_SIZE = 1000
+)
+
 func init() {
 	buffers = &sync.Pool{
 		New: func() interface{} {
-			return &FreeableBuffer{}
+			buffer := new(FreeableBuffer)
+			buffer.Grow(INITIAL_BUFFER_SIZE)
+
+			return buffer
 		},
 	}
 }
