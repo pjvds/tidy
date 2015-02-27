@@ -120,3 +120,14 @@ func (this *Logger) Fatal(msg string) {
 func (this *Logger) Fatalf(format string, args ...interface{}) {
 	this.log(FATAL, fmt.Sprintf(format, args...))
 }
+
+func (this *Logger) Panic(err error) {
+	this.log(ERROR, err.Error())
+	panic(err)
+}
+
+func (this *Logger) Panicf(format string, args ...interface{}) {
+	err := fmt.Errorf(format, args...)
+	this.log(ERROR, err.Error())
+	panic(err)
+}
