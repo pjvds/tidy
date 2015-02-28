@@ -44,7 +44,7 @@ func (this Config) TCP() Config {
 }
 
 func (this Config) Build() tidy.Backend {
-	b := &Backend{
+	b := &backend{
 		entries:   make(chan tidy.Entry, 10000),
 		network:   this.network,
 		address:   this.address,
@@ -56,7 +56,7 @@ func (this Config) Build() tidy.Backend {
 	return b
 }
 
-type Backend struct {
+type backend struct {
 	entries   chan tidy.Entry
 	network   string
 	address   string
@@ -65,7 +65,7 @@ type Backend struct {
 }
 
 func New(token string) tidy.Backend {
-	backend := &Backend{
+	backend := &backend{
 		entries:   make(chan tidy.Entry, 5000),
 		network:   "tcp",
 		address:   "data.logentries.com:10000",
@@ -77,7 +77,7 @@ func New(token string) tidy.Backend {
 	return backend
 }
 
-func (this *Backend) do() {
+func (this *backend) do() {
 	buffer := new(bytes.Buffer)
 	buffer.Write(this.token)
 
@@ -105,14 +105,14 @@ CONNECT:
 	}
 }
 
-func (this *Backend) IsEnabledFor(level tidy.Level, module tidy.Module) bool {
+func (this *backend) IsEnabledFor(level tidy.Level, module tidy.Module) bool {
 	return true
 }
 
-func (this *Backend) Log(entry tidy.Entry) {
+func (this *backend) Log(entry tidy.Entry) {
 	this.entries <- entry
 }
 
-func (this *Backend) Flush() error {
+func (this *backend) Flush() error {
 	return nil
 }
