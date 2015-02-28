@@ -5,41 +5,47 @@ import (
 	"net"
 	"time"
 
+	"github.com/pjvds/backoff"
 	"github.com/pjvds/tidy"
 )
 
 type backend struct {
-	entries   chan tidy.Entry
-	network   string
-	address   string
-	formatter tidy.PlainTextFormatter
-	token     []byte
+	entries    chan tidy.Entry
+	network    string
+	address    string
+	formatter  tidy.PlainTextFormatter
+	token      []byte
+	connection net.Conn
 }
 
 func (this *backend) do() {
 	buffer := new(bytes.Buffer)
 	buffer.Write(this.token)
 
+	// reset to this point to for every entry.
 	entryStart := len(this.token)
-CONNECT:
+
+	backoff := backoff.Exp(time.Millisecond, 5*time.Second)
+DIAL:
 	conn, err := net.Dial(this.network, this.address)
+
 	if err != nil {
-		time.Sleep(3 * time.Second)
-		goto CONNECT
+		conn.Close()
+		backoff.Sleep()
+		goto DIAL
 	}
 
 	for entry := range this.entries {
+		// reset to the point after the token
 		buffer.Truncate(entryStart)
+
+		// format the message into the buffer
 		this.formatter.FormatTo(buffer, entry)
 
-		for {
-			if _, err := conn.Write(buffer.Bytes()); err != nil {
-				if neterr, ok := err.(net.Error); ok && neterr.Temporary() {
-					continue
-				}
-				goto CONNECT
-			}
-			break
+		if _, err := buffer.WriteTo(conn); err != nil {
+			conn.Close()
+			backoff.Sleep()
+			goto DIAL
 		}
 	}
 }
