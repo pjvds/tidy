@@ -42,7 +42,7 @@ func TestBackendRoundtrip(t *testing.T) {
 		t.Skip("LE_ACCOUNT_KEY not set")
 	}
 
-	backend := logentries.New(token)
+	backend := logentries.Configure(token).UDP().Build()
 	log := tidy.NewLogger("foobar", backend)
 
 	id, _ := uuid.NewV4()
@@ -68,7 +68,6 @@ func TestBackendRoundtrip(t *testing.T) {
 					return
 				}
 
-				//t.Logf("body: %v", tail)
 				time.Sleep(500 * time.Millisecond)
 			}
 		}
