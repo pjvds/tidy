@@ -22,7 +22,7 @@ func init() {
 
 func GetLogger() *Logger {
 	module := GetModuleFromCaller(1)
-	logger := newLogger(module, defaulBackend)
+	logger := NewLogger(module, defaulBackend)
 
 	return &logger
 }
@@ -34,7 +34,7 @@ func CreateOrGetLogger(module string) *Logger {
 	}
 }
 
-func newLogger(module Module, backend Backend) Logger {
+func NewLogger(module Module, backend Backend) Logger {
 	return Logger{
 		module:  module,
 		backend: backend,
