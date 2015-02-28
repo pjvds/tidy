@@ -16,19 +16,6 @@ type backend struct {
 	token     []byte
 }
 
-func New(token string) tidy.Backend {
-	backend := &backend{
-		entries:   make(chan tidy.Entry, 5000),
-		network:   "tcp",
-		address:   "data.logentries.com:10000",
-		formatter: tidy.PlainTextFormatter{},
-		token:     []byte(token),
-	}
-
-	go backend.do()
-	return backend
-}
-
 func (this *backend) do() {
 	buffer := new(bytes.Buffer)
 	buffer.Write(this.token)
