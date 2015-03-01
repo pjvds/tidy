@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"sync/atomic"
 	"testing"
 	"time"
 
@@ -49,8 +50,10 @@ func TestBackendRoundtrip(t *testing.T) {
 	secret := id.String()
 	log.WithField("secret", secret).Debug("hello world")
 
+	var lastBody atomic.Value
 	done := make(chan struct{})
 	matched := make(chan struct{})
+
 	go func() {
 		t.Logf("looking for secret: %v", secret)
 		for {
@@ -63,6 +66,7 @@ func TestBackendRoundtrip(t *testing.T) {
 					t.Fatalf("failed to get tail from logentries: %v", err)
 				}
 
+				lastBody.Store(tail)
 				if strings.Contains(tail, secret) {
 					close(matched)
 					return
@@ -77,6 +81,7 @@ func TestBackendRoundtrip(t *testing.T) {
 	case <-matched:
 		// great
 	case <-time.After(30 * time.Second):
+		t.Logf("body: %v", lastBody.Load())
 		t.Fatalf("entry not found in tail")
 		close(done)
 	}
