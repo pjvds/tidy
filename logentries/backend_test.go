@@ -59,6 +59,8 @@ func TestBackendRoundtrip(t *testing.T) {
 	}
 
 	var lastBody atomic.Value
+	lastBody.Store("<empty>")
+
 	done := make(chan struct{})
 	matched := make(chan struct{})
 
