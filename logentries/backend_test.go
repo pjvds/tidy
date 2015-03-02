@@ -82,7 +82,7 @@ func TestBackendRoundtrip(t *testing.T) {
 	select {
 	case <-matched:
 		// great
-	case <-time.After(30 * time.Second):
+	case <-time.After(45 * time.Second):
 		t.Logf("body: %v", lastBody.Load())
 		t.Fatalf("entry not found in tail")
 		close(done)
