@@ -30,7 +30,6 @@ DIAL:
 	conn, err := net.Dial(this.network, this.address)
 
 	if err != nil {
-		conn.Close()
 		delay.Delay()
 		goto DIAL
 	}
