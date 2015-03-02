@@ -47,7 +47,7 @@ DIAL:
 		// format the message into the buffer
 		this.formatter.FormatTo(buffer, entry)
 
-		if _, err := buffer.WriteTo(conn); err != nil {
+		if _, err := conn.Write(buffer.Bytes()); err != nil {
 			if this.failure != nil {
 				this.failure(err)
 			}
