@@ -20,15 +20,15 @@ func init() {
 	}
 }
 
-func GetLogger() *Logger {
+func GetLogger() Logger {
 	module := GetModuleFromCaller(1)
 	logger := NewLogger(module, defaulBackend)
 
-	return &logger
+	return logger
 }
 
-func CreateOrGetLogger(module string) *Logger {
-	return &Logger{
+func CreateOrGetLogger(module string) Logger {
+	return Logger{
 		module:  Module(module),
 		backend: defaulBackend,
 	}
@@ -41,7 +41,7 @@ func NewLogger(module Module, backend Backend) Logger {
 	}
 }
 
-func (this *Logger) WithField(key string, value interface{}) *Logger {
+func (this Logger) WithField(key string, value interface{}) Logger {
 	clone := make(Fields, len(this.fields)+1)
 
 	for existingKey, existingValue := range this.fields {
@@ -50,35 +50,35 @@ func (this *Logger) WithField(key string, value interface{}) *Logger {
 
 	clone[key] = value
 
-	return &Logger{
+	return Logger{
 		module:  this.module,
 		fields:  clone,
 		backend: this.backend,
 	}
 }
 
-func (this *Logger) WithFields(fields Fields) *Logger {
-	return &Logger{
+func (this Logger) WithFields(fields Fields) Logger {
+	return Logger{
 		module:  this.module,
 		fields:  this.fields.Join(fields),
 		backend: this.backend,
 	}
 }
 
-func (this *Logger) IsDebug() bool {
+func (this Logger) IsDebug() bool {
 	return this.backend.IsEnabledFor(DEBUG, this.module)
 }
-func (this *Logger) IsInfo() bool {
+func (this Logger) IsInfo() bool {
 	return this.backend.IsEnabledFor(INFO, this.module)
 }
-func (this *Logger) IsWarn() bool {
+func (this Logger) IsWarn() bool {
 	return this.backend.IsEnabledFor(WARN, this.module)
 }
-func (this *Logger) IsError() bool {
+func (this Logger) IsError() bool {
 	return this.backend.IsEnabledFor(ERROR, this.module)
 }
 
-func (this *Logger) log(level Level, msg string) {
+func (this Logger) log(level Level, msg string) {
 	this.backend.Log(Entry{
 		Timestamp: time.Now(),
 		Module:    this.module,
@@ -88,45 +88,45 @@ func (this *Logger) log(level Level, msg string) {
 	})
 }
 
-func (this *Logger) Debug(msg string) {
+func (this Logger) Debug(msg string) {
 	this.log(DEBUG, msg)
 }
-func (this *Logger) Debugf(format string, args ...interface{}) {
+func (this Logger) Debugf(format string, args ...interface{}) {
 	msg := fmt.Sprintf(format, args...)
 	this.Debug(msg)
 }
-func (this *Logger) Info(msg string) {
+func (this Logger) Info(msg string) {
 	this.log(INFO, msg)
 }
-func (this *Logger) Infof(format string, args ...interface{}) {
+func (this Logger) Infof(format string, args ...interface{}) {
 	msg := fmt.Sprintf(format, args...)
 	this.Info(msg)
 }
-func (this *Logger) Warn(msg string) {
+func (this Logger) Warn(msg string) {
 	this.log(WARN, msg)
 }
-func (this *Logger) Warnf(format string, args ...interface{}) {
+func (this Logger) Warnf(format string, args ...interface{}) {
 	this.log(WARN, fmt.Sprintf(format, args...))
 }
-func (this *Logger) Error(msg string) {
+func (this Logger) Error(msg string) {
 	this.log(ERROR, msg)
 }
-func (this *Logger) Errorf(format string, args ...interface{}) {
+func (this Logger) Errorf(format string, args ...interface{}) {
 	this.log(ERROR, fmt.Sprintf(format, args...))
 }
-func (this *Logger) Fatal(msg string) {
+func (this Logger) Fatal(msg string) {
 	this.log(FATAL, msg)
 }
-func (this *Logger) Fatalf(format string, args ...interface{}) {
+func (this Logger) Fatalf(format string, args ...interface{}) {
 	this.log(FATAL, fmt.Sprintf(format, args...))
 }
 
-func (this *Logger) Panic(err error) {
+func (this Logger) Panic(err error) {
 	this.log(ERROR, err.Error())
 	panic(err)
 }
 
-func (this *Logger) Panicf(format string, args ...interface{}) {
+func (this Logger) Panicf(format string, args ...interface{}) {
 	err := fmt.Errorf(format, args...)
 	this.log(ERROR, err.Error())
 	panic(err)
