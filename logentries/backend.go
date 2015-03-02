@@ -16,6 +16,8 @@ type backend struct {
 	formatter  tidy.PlainTextFormatter
 	token      []byte
 	connection net.Conn
+
+	failure func(error)
 }
 
 func (this *backend) do() {
@@ -30,6 +32,10 @@ DIAL:
 	conn, err := net.Dial(this.network, this.address)
 
 	if err != nil {
+		if this.failure != nil {
+			this.failure(err)
+		}
+
 		delay.Delay()
 		goto DIAL
 	}
@@ -42,6 +48,10 @@ DIAL:
 		this.formatter.FormatTo(buffer, entry)
 
 		if _, err := buffer.WriteTo(conn); err != nil {
+			if this.failure != nil {
+				this.failure(err)
+			}
+
 			conn.Close()
 			delay.Delay()
 			goto DIAL

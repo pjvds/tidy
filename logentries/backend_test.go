@@ -43,7 +43,9 @@ func TestBackendRoundtrip(t *testing.T) {
 		t.Skip("LE_ACCOUNT_KEY not set")
 	}
 
-	backend := logentries.Configure(token).UDP().Build()
+	backend := logentries.Configure(token).UDP().OnFailure(func(err error) {
+		t.Fatalf("backend failed: %v", err)
+	}).Build()
 	log := tidy.NewLogger("foobar", backend)
 
 	id, _ := uuid.NewV4()

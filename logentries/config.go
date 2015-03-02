@@ -6,6 +6,7 @@ type Config struct {
 	address string
 	network string
 	token   string
+	failure func(error)
 }
 
 func Configure(token string) Config {
@@ -14,6 +15,11 @@ func Configure(token string) Config {
 		network: "udp",
 		token:   token,
 	}
+}
+
+func (this Config) OnFailure(callback func(error)) Config {
+	this.failure = callback
+	return this
 }
 
 func (this Config) Token(value string) Config {
@@ -38,6 +44,7 @@ func (this Config) Build() tidy.Backend {
 		address:   this.address,
 		formatter: tidy.PlainTextFormatter{},
 		token:     []byte(this.token),
+		failure:   this.failure,
 	}
 	go b.do()
 
