@@ -54,7 +54,7 @@ func TestBackendRoundtrip(t *testing.T) {
 	for n := 0; n < 10; n++ {
 		log.WithFields(tidy.Fields{
 			"secret": secret,
-			"n", n,
+			"n":      n,
 		}).Debug("hello world")
 	}
 
