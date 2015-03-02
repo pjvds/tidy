@@ -50,7 +50,13 @@ func TestBackendRoundtrip(t *testing.T) {
 
 	id, _ := uuid.NewV4()
 	secret := id.String()
-	log.WithField("secret", secret).Debug("hello world")
+
+	for n := 0; n < 10; n++ {
+		log.WithFields(tidy.Fields{
+			"secret": secret,
+			"n", n,
+		}).Debug("hello world")
+	}
 
 	var lastBody atomic.Value
 	done := make(chan struct{})
