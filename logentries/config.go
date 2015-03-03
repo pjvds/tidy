@@ -17,11 +17,6 @@ func Configure(token string) Config {
 	}
 }
 
-func (this Config) OnFailure(callback func(error)) Config {
-	this.failure = callback
-	return this
-}
-
 func (this Config) Token(value string) Config {
 	this.token = value
 	return this
@@ -44,7 +39,6 @@ func (this Config) Build() tidy.Backend {
 		address:   this.address,
 		formatter: tidy.PlainTextFormatter{},
 		token:     []byte(this.token),
-		failure:   this.failure,
 	}
 	go b.do()
 
