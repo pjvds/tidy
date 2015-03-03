@@ -32,6 +32,33 @@ func getLogTail(key string) (string, error) {
 	return string(all), nil
 }
 
+func BenchmarkBackend(b *testing.B) {
+	token := os.Getenv("LE_TOKEN")
+	if len(token) == 0 {
+		b.Skip("LE_TOKEN not set")
+	}
+
+	key := os.Getenv("LE_ACCOUNT_KEY")
+	if len(key) == 0 {
+		b.Skip("LE_ACCOUNT_KEY not set")
+	}
+
+	backend := logentries.Configure(token).UDP().Build()
+	entry := tidy.Entry{
+		Timestamp: time.Now(),
+		Module:    tidy.Module("test"),
+		Level:     tidy.FATAL,
+		Message:   "log message",
+	}
+
+	b.ReportAllocs()
+	b.ResetTimer()
+
+	for n := 0; n < b.N; n++ {
+		backend.Log(entry)
+	}
+}
+
 func TestBackendRoundtrip(t *testing.T) {
 	token := os.Getenv("LE_TOKEN")
 	if len(token) == 0 {
@@ -43,9 +70,7 @@ func TestBackendRoundtrip(t *testing.T) {
 		t.Skip("LE_ACCOUNT_KEY not set")
 	}
 
-	backend := logentries.Configure(token).UDP().OnFailure(func(err error) {
-		t.Fatalf("backend failed: %v", err)
-	}).Build()
+	backend := logentries.Configure(token).UDP().Build()
 	log := tidy.NewLogger("foobar", backend)
 
 	id, _ := uuid.NewV4()
