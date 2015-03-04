@@ -43,7 +43,7 @@ func BenchmarkBackend(b *testing.B) {
 		b.Skip("LE_ACCOUNT_KEY not set")
 	}
 
-	backend := logentries.Configure(token).UDP().Build()
+	backend := logentries.Configure(token).TCP().Build()
 	entry := tidy.Entry{
 		Timestamp: time.Now(),
 		Module:    tidy.Module("test"),
