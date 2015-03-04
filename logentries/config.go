@@ -6,7 +6,6 @@ type Config struct {
 	address string
 	network string
 	token   string
-	failure func(error)
 }
 
 func Configure(token string) Config {
