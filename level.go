@@ -26,14 +26,6 @@ var (
 		"INFO",
 		"DEBUG",
 	}
-	fixedNames = [...]string{
-		"FATAL ",
-		"ERROR ",
-		"WARN  ",
-		"NOTICE",
-		"INFO  ",
-		"DEBUG ",
-	}
 )
 
 type Level byte
@@ -48,8 +40,4 @@ func (this Level) Allows(other Level) bool {
 
 func (this Level) String() string {
 	return names[this]
-}
-
-func (this Level) FixedString() string {
-	return fixedNames[this]
 }
