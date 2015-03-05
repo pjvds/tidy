@@ -12,10 +12,10 @@ func (PlainTextFormatter) FormatTo(writer io.Writer, entry Entry) error {
 	defer buffer.Free()
 
 	buffer.WriteString(entry.Timestamp.Format("15:04:05.000 "))
-	buffer.WriteString(entry.Level.FixedString())
-	buffer.Write(whitespace)
+	buffer.WriteString(entry.Level.String())
+	buffer.WriteString(" (")
 	buffer.WriteString(entry.Module.String())
-	buffer.Write(whitespace)
+	buffer.WriteString("): ")
 	buffer.WriteString(entry.Message)
 
 	if entry.Fields.Any() {
