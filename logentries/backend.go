@@ -10,12 +10,11 @@ import (
 )
 
 type backend struct {
-	entries    chan tidy.Entry
-	network    string
-	address    string
-	formatter  tidy.PlainTextFormatter
-	token      []byte
-	connection net.Conn
+	entries   chan tidy.Entry
+	network   string
+	address   string
+	formatter tidy.PlainTextFormatter
+	token     []byte
 }
 
 func (this *backend) do() {
