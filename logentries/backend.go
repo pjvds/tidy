@@ -45,6 +45,7 @@ DIAL:
 			delay.Delay()
 			goto DIAL
 		}
+		delay.Reset()
 	}
 }
 
