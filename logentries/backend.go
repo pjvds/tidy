@@ -21,13 +21,13 @@ func (this *backend) do() {
 	buffer := new(bytes.Buffer)
 	buffer.Write(this.token)
 
-	// reset to this point to for every entry.
+	// reset to this point for every entry.
 	entryStart := len(this.token)
 
 	delay := backoff.Exp(time.Millisecond, 10*time.Second)
+
 DIAL:
 	conn, err := net.Dial(this.network, this.address)
-
 	if err != nil {
 		delay.Delay()
 		goto DIAL
