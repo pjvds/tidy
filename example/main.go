@@ -3,7 +3,8 @@ package main
 import "github.com/pjvds/tidy"
 
 func main() {
-	log := tidy.CreateOrGetLogger("main")
+	log := tidy.GetLogger()
+
 	log.Fatal("fatal")
 	log.Error("error")
 	log.WithField("week", 8).Warn("warning entry")
