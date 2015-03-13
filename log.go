@@ -2,9 +2,11 @@ package tidy
 
 import (
 	"fmt"
+	"os"
 	"time"
 )
 
+// Immutable logger context.
 type Logger struct {
 	module Module
 	fields Fields
@@ -114,11 +116,15 @@ func (this Logger) Error(msg string) {
 func (this Logger) Errorf(format string, args ...interface{}) {
 	this.log(ERROR, fmt.Sprintf(format, args...))
 }
+
 func (this Logger) Fatal(msg string) {
 	this.log(FATAL, msg)
+	os.Exit(255)
 }
+
 func (this Logger) Fatalf(format string, args ...interface{}) {
 	this.log(FATAL, fmt.Sprintf(format, args...))
+	os.Exit(255)
 }
 
 func (this Logger) Panic(err error) {
