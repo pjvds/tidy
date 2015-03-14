@@ -13,7 +13,22 @@ import (
 	"github.com/nu7hatch/gouuid"
 	"github.com/pjvds/tidy"
 	"github.com/pjvds/tidy/logentries"
+	"github.com/stvp/go-udp-testing"
 )
+
+func TestLogentriesBackend(t *testing.T) {
+	address := "127.0.0.1:8125"
+	token := "2bfbea1e-10c3-4419-bdad-7e6435882e1f"
+	udp.SetAddr(address)
+
+	expected := fmt.Sprintf("%vDEBUG (module): foobar", token)
+	udp.ShouldReceiveOnly(t, expected, func() {
+		backend := logentries.Configure(token).Address(address).Build()
+		log := tidy.NewLogger("module", backend)
+
+		log.Debug("foobar")
+	})
+}
 
 func getLogTail(key string) (string, error) {
 	url := fmt.Sprintf("https://pull.logentries.com/%v/hosts/ManualHost/tidy_tests/?start=-100000", key)
