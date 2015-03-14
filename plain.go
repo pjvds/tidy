@@ -11,7 +11,8 @@ func (PlainTextFormatter) FormatTo(writer io.Writer, entry Entry) error {
 	buffer := NewBuffer()
 	defer buffer.Free()
 
-	buffer.WriteString(entry.Timestamp.Format("15:04:05.000 "))
+	// TODO: make format configurable
+	//buffer.WriteString(entry.Timestamp.Format("15:04:05.000 "))
 	buffer.WriteString(entry.Level.String())
 	buffer.WriteString(" (")
 	buffer.WriteString(entry.Module.String())
