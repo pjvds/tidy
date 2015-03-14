@@ -51,6 +51,8 @@ func (this Config) BufferSize(size int) Config {
 
 // Build the backend based on the config.
 func (this Config) Build() tidy.Backend {
+	// Only one call to Dial is necessary.
+	// On write failures, the syslog client will attempt to reconnect to the server and write again.
 	writer, err := Dial(this.network, this.address, LOG_DEBUG, this.tag)
 
 	// Dial only errors when there are invalid parameters, not when it can connect.
