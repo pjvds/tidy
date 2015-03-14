@@ -33,6 +33,8 @@ DIAL:
 		goto DIAL
 	}
 
+	// range all entries, if an error occurs while
+	// sending the entry is dropped.
 	for entry := range this.entries {
 		// reset to the point after the token
 		buffer.Truncate(entryStart)
