@@ -52,6 +52,7 @@ DIAL:
 }
 
 func (this *backend) IsEnabledFor(level tidy.Level, module tidy.Module) bool {
+	// todo: make this configurable
 	return true
 }
 

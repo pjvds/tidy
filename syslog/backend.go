@@ -7,7 +7,6 @@ import (
 	"github.com/pjvds/tidy"
 )
 
-//Only one call to Dial is necessary. On write failures, the syslog client will attempt to reconnect to the server and write again.
 type backend struct {
 	entries   chan tidy.Entry
 	writer    *Writer
@@ -47,6 +46,7 @@ func (this *backend) do() {
 }
 
 func (this *backend) IsEnabledFor(level tidy.Level, module tidy.Module) bool {
+	// todo: make this configurable
 	return true
 }
 
