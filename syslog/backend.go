@@ -1,3 +1,4 @@
+//+build !windows,!plan9
 package syslog
 
 import (

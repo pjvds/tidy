@@ -1,3 +1,4 @@
+//+build !windows,!plan9
 package syslog
 
 import (
@@ -24,7 +25,12 @@ type Config struct {
 // Configure a new syslog backend. Call `Config.Build` to build
 // the backend instance.
 func Configure() Config {
-	return Config{}
+	return Config{
+		network:    "",
+		address:    "",
+		tag:        "",
+		bufferSize: 256,
+	}
 }
 
 // Overrides the default local syslog address. Usually only used when logging to
