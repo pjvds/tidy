@@ -117,11 +117,17 @@ func (this Logger) Errorf(format string, args ...interface{}) {
 	this.log(ERROR, fmt.Sprintf(format, args...))
 }
 
+// Fatal logs a FATAL message and then calls os.Exit(255). This causes the current program to
+// exit with the 255 status code. Conventionally, code zero indicates success, non-zero an error.
+// The program terminates immediately; deferred functions are not run.
 func (this Logger) Fatal(msg string) {
 	this.log(FATAL, msg)
 	os.Exit(255)
 }
 
+// Fatalf formats the messages and logs a FATAL message and then calls os.Exit(255). This causes the current program to
+// exit with the 255 status code. Conventionally, code zero indicates success, non-zero an error.
+// The program terminates immediately; deferred functions are not run.
 func (this Logger) Fatalf(format string, args ...interface{}) {
 	this.log(FATAL, fmt.Sprintf(format, args...))
 	os.Exit(255)
