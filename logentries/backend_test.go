@@ -24,6 +24,12 @@ func TestLogentriesBackend(t *testing.T) {
 }
 
 /*
+
+HERE FOLLOWS DEAD CODE, THESE INTEGRATION TESTS WORKS GREAT
+FOR DEBUGGING BUT CAN'T BE TRUSTED DURING BUILD BECAUSE OF
+THE HIGH FAILURE RATE THAT IS CAUSED BY THE LAG OF
+LOGENTRIES.COM
+
 func getLogTail(key string) (string, error) {
 	url := fmt.Sprintf("https://pull.logentries.com/%v/hosts/ManualHost/tidy_tests/?start=-100000", key)
 	response, err := http.Get(url)
