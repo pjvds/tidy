@@ -17,7 +17,7 @@ func TestLogentriesBackend(t *testing.T) {
 	expected := fmt.Sprintf("%vDEBUG (module): foobar\n", token)
 	udp.ShouldReceiveOnly(t, expected, func() {
 		backend := logentries.Configure(token).Address(address).Build()
-		log := tidy.NewLogger("module", backend)
+		log := tidy.NewLogger(tidy.NewModule("module"), backend)
 
 		log.Debug("foobar")
 	})
