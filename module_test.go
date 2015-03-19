@@ -14,7 +14,7 @@ type MyStructure struct{}
 func TestGetModuleFromValue(t *testing.T) {
 	module := tidy.GetModuleFromValue(MyStructure{})
 
-	assert.Equal(t, module.String(), "github.com/pjvds/tidy_test")
+	assert.Equal(t, module.String(), "tidy_test")
 }
 
 func TestGetModuleFromCaller(t *testing.T) {
