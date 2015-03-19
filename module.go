@@ -28,6 +28,7 @@ func NewModule(path string) Module {
 
 	return Module{
 		path: path,
+		name: path,
 	}
 }
 
