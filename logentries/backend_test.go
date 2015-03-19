@@ -2,15 +2,8 @@ package logentries_test
 
 import (
 	"fmt"
-	"io/ioutil"
-	"net/http"
-	"os"
-	"strings"
-	"sync/atomic"
 	"testing"
-	"time"
 
-	"github.com/nu7hatch/gouuid"
 	"github.com/pjvds/tidy"
 	"github.com/pjvds/tidy/logentries"
 	"github.com/stvp/go-udp-testing"
@@ -30,6 +23,7 @@ func TestLogentriesBackend(t *testing.T) {
 	})
 }
 
+/*
 func getLogTail(key string) (string, error) {
 	url := fmt.Sprintf("https://pull.logentries.com/%v/hosts/ManualHost/tidy_tests/?start=-100000", key)
 	response, err := http.Get(url)
@@ -136,3 +130,4 @@ func TestBackendRoundtrip(t *testing.T) {
 		close(done)
 	}
 }
+*/
