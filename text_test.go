@@ -95,7 +95,7 @@ var largeFields = Fields{
 
 func BenchmarkSmallTextColoredTextFormatter(b *testing.B) {
 	entry := Entry{
-		Module:    Module("benchmark"),
+		Module:    NewModule("benchmark"),
 		Timestamp: time.Now(),
 		Level:     INFO,
 		Message:   "message",
@@ -121,7 +121,7 @@ func BenchmarkSmallTextColoredTextFormatter(b *testing.B) {
 
 func BenchmarkLargeTextColoredTextFormatter(b *testing.B) {
 	entry := Entry{
-		Module:    Module("benchmark"),
+		Module:    NewModule("benchmark"),
 		Timestamp: time.Now(),
 		Level:     INFO,
 		Message:   "message",
