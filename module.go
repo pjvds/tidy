@@ -22,7 +22,7 @@ func NewModule(path string) Module {
 	if lastSlash := strings.LastIndex(path, "/"); lastSlash != -1 {
 		return Module{
 			path: path,
-			name: path[lastSlash:],
+			name: path[lastSlash+1:],
 		}
 	}
 
