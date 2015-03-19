@@ -7,10 +7,32 @@ import (
 	"strings"
 )
 
-type Module string
+type Module struct {
+	// the package import path, e.q.: github.com/pjvds/tidy/logentries
+	path string
+	// the base package path, e.q.: logentries
+	name string
+}
+
+func NewModule(path string) Module {
+	if len(path) == 0 {
+		return Module{}
+	}
+
+	if lastSlash := strings.LastIndex(path, "/"); lastSlash != -1 {
+		return Module{
+			path: path,
+			name: path[lastSlash:],
+		}
+	}
+
+	return Module{
+		path: path,
+	}
+}
 
 func GetModuleFromValue(value interface{}) Module {
-	return Module(reflect.TypeOf(value).PkgPath())
+	return NewModule(reflect.TypeOf(value).PkgPath())
 }
 
 func GetModuleFromCaller(depth int) Module {
@@ -30,12 +52,11 @@ func GetModuleFromCaller(depth int) Module {
 	// e.q.: github.com/pjvds/tidy.GetLogger
 	name := function.Name()
 
-	lastSlashIndex := strings.LastIndex(name, "/")
 	lastDotIndex := strings.LastIndex(name, ".")
 
-	return Module(name[lastSlashIndex+1 : lastDotIndex])
+	return NewModule(name[0:lastDotIndex])
 }
 
 func (this Module) String() string {
-	return string(this)
+	return string(this.name)
 }
