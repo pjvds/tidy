@@ -24,6 +24,9 @@ type Config struct {
 
 // Configure a new syslog backend. Call `Config.Build` to build
 // the backend instance.
+//
+// The default configuration logs to the local syslog with the tag
+// set to the process name.
 func Configure() Config {
 	return Config{
 		network:    "",
