@@ -15,7 +15,7 @@ func TestPlain(t *testing.T) {
 
 	entry := tidy.Entry{
 		Timestamp: time.Now(),
-		Module:    tidy.Module("tidy_test"),
+		Module:    tidy.NewModule("tidy_test"),
 		Level:     tidy.DEBUG,
 		Message:   "log message",
 		Fields: tidy.Fields{
