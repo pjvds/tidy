@@ -31,7 +31,7 @@ func GetLogger() Logger {
 
 func CreateOrGetLogger(module string) Logger {
 	return Logger{
-		module:  Module(module),
+		module:  NewModule(module),
 		backend: defaulBackend,
 	}
 }
