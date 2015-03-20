@@ -7,7 +7,7 @@ func main() {
 
 	log.Fatal("fatal")
 	log.Error("error")
-	log.WithField("week", 8).Warn("warning entry")
+	log.With("week", 8).Warn("warning entry")
 	log.Info("info")
 	log.Debug("debug")
 
