@@ -43,10 +43,12 @@ func NewLogger(module Module, backend Backend) Logger {
 	}
 }
 
+// Obsolete: use With instead.
 func (this Logger) WithField(key string, value interface{}) Logger {
 	return this.With(key, value)
 }
 
+// Obsolete: use Withs instead.
 func (this Logger) WithFields(fields Fields) Logger {
 	return this.Withs(fields)
 }
