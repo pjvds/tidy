@@ -80,6 +80,10 @@ func (this Logger) Withs(fields Fields) Logger {
 	}
 }
 
+func (this Logger) IsEnabled(level Level) bool {
+	return this.backend.IsEnabledFor(level, this.module)
+}
+
 func (this Logger) IsDebug() bool {
 	return this.backend.IsEnabledFor(DEBUG, this.module)
 }
