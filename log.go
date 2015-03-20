@@ -51,6 +51,8 @@ func (this Logger) WithFields(fields Fields) Logger {
 	return this.Withs(fields)
 }
 
+// With return a copy of the current Logger with the specified field set
+// to the specified value.
 func (this Logger) With(key string, value interface{}) Logger {
 	clone := make(Fields, len(this.fields)+1)
 
@@ -67,6 +69,7 @@ func (this Logger) With(key string, value interface{}) Logger {
 	}
 }
 
+// Withs returns a copy of the current Logger with the additional specified fields.
 func (this Logger) Withs(fields Fields) Logger {
 	return Logger{
 		module:  this.module,
