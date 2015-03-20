@@ -19,11 +19,10 @@ func TestPlain(t *testing.T) {
 		Level:     tidy.DEBUG,
 		Message:   "log message",
 		Fields: tidy.Fields{
-			"a": "value a",
-			"b": 42,
+			"foo": "bar",
 		},
 	}
 
 	plain.FormatTo(buffer, entry)
-	assert.Equal(t, buffer.String(), "DEBUG (tidy_test): log message\t a=value a b=42\n")
+	assert.Equal(t, buffer.String(), "DEBUG (tidy_test): log message\t foo=bar\n")
 }
