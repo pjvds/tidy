@@ -44,6 +44,14 @@ func NewLogger(module Module, backend Backend) Logger {
 }
 
 func (this Logger) WithField(key string, value interface{}) Logger {
+	return this.With(key, value)
+}
+
+func (this Logger) WithFields(fields Fields) Logger {
+	return this.Withs(fields)
+}
+
+func (this Logger) With(key string, value interface{}) Logger {
 	clone := make(Fields, len(this.fields)+1)
 
 	for existingKey, existingValue := range this.fields {
@@ -59,7 +67,7 @@ func (this Logger) WithField(key string, value interface{}) Logger {
 	}
 }
 
-func (this Logger) WithFields(fields Fields) Logger {
+func (this Logger) Withs(fields Fields) Logger {
 	return Logger{
 		module:  this.module,
 		fields:  this.fields.Join(fields),
