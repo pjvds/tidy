@@ -38,6 +38,7 @@ func (this Level) Allows(other Level) bool {
 	return this >= other
 }
 
+// String returns the level fullname, like: FATAL, ERROR or DEBUG.
 func (this Level) String() string {
 	return names[this]
 }
