@@ -1,30 +1,22 @@
 package tidy
 
-type Verbosity struct {
+type verbosity struct {
 	enabled bool
 	level   Level
 	logger  *Logger
 	fields  Fields
 }
 
-func newVerbosity(level Level, logger *Logger) Verbosity {
-	return Verbosity{
-		enabled: logger.IsEnabled(level),
-		level:   level,
-		logger:  logger,
-	}
-}
-
-func (this Verbosity) With(field string, value interface{}) Verbosity {
+func (this verbosity) With(field string, value interface{}) verbosity {
 	if this.enabled {
 		this.fields[field] = value
 	}
 	return this
 }
 
-func (this Verbosity) Withs(fields Fields) Verbosity {
+func (this verbosity) Withs(fields Fields) verbosity {
 	if this.enabled {
-		// no need to be immutable here, Verbosity types are there
+		// no need to be immutable here, verbosity types are there
 		// to only create a single log line.
 		for field, value := range fields {
 			this.fields[field] = value
@@ -33,7 +25,7 @@ func (this Verbosity) Withs(fields Fields) Verbosity {
 	return this
 }
 
-func (this Verbosity) Write(message string) Verbosity {
+func (this verbosity) Write(message string) verbosity {
 	if this.enabled {
 		this.logger.Withs(this.fields).log(this.level, message)
 	}
