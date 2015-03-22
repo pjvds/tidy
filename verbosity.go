@@ -29,4 +29,6 @@ func (this verbosity) Write(message string) verbosity {
 	if this.enabled {
 		this.logger.Withs(this.fields).log(this.level, message)
 	}
+
+	return this
 }
