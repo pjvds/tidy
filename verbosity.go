@@ -3,7 +3,7 @@ package tidy
 type verbosity struct {
 	enabled bool
 	level   Level
-	logger  *Logger
+	logger  Logger
 	fields  Fields
 }
 
