@@ -4,8 +4,8 @@ import "github.com/pjvds/tidy"
 
 func main() {
 	log := tidy.GetLogger()
+	log.V(tidy.INFO).With("foo", "bar").Write("info message")
 
-	log.Fatal("fatal")
 	log.Error("error")
 	log.With("week", 8).Warn("warning entry")
 	log.Info("info")
