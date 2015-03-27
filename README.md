@@ -1,3 +1,3 @@
 # tidy
 
-Flexible structured logging with mechanical sympathy for astonishing performance.
+Flexible structured logging that is not fast by accident!
