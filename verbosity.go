@@ -9,6 +9,9 @@ type verbosity struct {
 
 func (this verbosity) With(field string, value interface{}) verbosity {
 	if this.enabled {
+		if this.fields == nil {
+			this.fields = make(Fields, 3)
+		}
 		this.fields[field] = value
 	}
 	return this
@@ -16,10 +19,16 @@ func (this verbosity) With(field string, value interface{}) verbosity {
 
 func (this verbosity) Withs(fields Fields) verbosity {
 	if this.enabled {
-		// no need to be immutable here, verbosity types are there
-		// to only create a single log line.
-		for field, value := range fields {
-			this.fields[field] = value
+		if this.fields == nil {
+			// when we don't have fields yet,
+			// just use the provided.
+			this.fields = fields
+		} else {
+			// no need to be immutable here, verbosity types are there
+			// to only create a single log line.
+			for field, value := range fields {
+				this.fields[field] = value
+			}
 		}
 	}
 	return this
