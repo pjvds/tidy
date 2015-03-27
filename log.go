@@ -18,6 +18,9 @@ var defaulBackend Backend
 
 func init() {
 	defaulBackend = &ColoredConsoleBackend{
+		LeveledBackend: LeveledBackend{
+			Level: DEBUG,
+		},
 		formatter: ColoredTextFormatter{},
 	}
 }
