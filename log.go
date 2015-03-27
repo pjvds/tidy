@@ -160,3 +160,11 @@ func (this Logger) Panicf(format string, args ...interface{}) {
 	this.log(ERROR, err.Error())
 	panic(err)
 }
+
+func (this Logger) V(level Level) verbosity {
+	return verbosity{
+		enabled: this.IsEnabled(level),
+		level:   level,
+		logger:  this,
+	}
+}
