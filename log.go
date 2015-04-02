@@ -11,7 +11,7 @@ type Logger struct {
 	module Module
 	fields Fields
 
-	backend Backend
+	backend LeveledBackend
 }
 
 var defaulBackend Backend
@@ -34,15 +34,19 @@ func GetLogger() Logger {
 
 func CreateOrGetLogger(module string) Logger {
 	return Logger{
-		module:  NewModule(module),
-		backend: defaulBackend,
+		module: NewModule(module),
+
+		// TODO: make configurable
+		backend: NewLeveledBackend(DEBUG, defaulBackend),
 	}
 }
 
 func NewLogger(module Module, backend Backend) Logger {
 	return Logger{
-		module:  module,
-		backend: backend,
+		module: module,
+
+		// TODO: make configurable
+		backend: NewLeveledBackend(DEBUG, backend),
 	}
 }
 
