@@ -4,6 +4,15 @@ import "os"
 
 type LeveledBackend struct {
 	Level Level
+
+	Backend
+}
+
+func NewLeveledBackend(level Level, backend Backend) LeveledBackend {
+	return LeveledBackend{
+		Level:   level,
+		Backend: backend,
+	}
 }
 
 func (this LeveledBackend) IsEnabledFor(level Level, module Module) bool {
@@ -25,7 +34,6 @@ func (this *ColoredConsoleBackend) Flush() error {
 }
 
 type Backend interface {
-	IsEnabledFor(level Level, module Module) bool
 	Log(entry Entry)
 	Flush() error
 }
