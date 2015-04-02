@@ -1,3 +1,3 @@
 # tidy
 
-Flexible structured logging that is not fast by accident!
+Flexible structured logging for Go that is not fast by accident!
