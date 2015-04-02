@@ -28,6 +28,12 @@ var (
 	}
 )
 
+// Represents a serverity level. The levels are:
+// FATAL, ERROR, WARN, NOTICE, INFO and DEBUG.
+// Use the Allows method to see if the current level
+// allows a specified level, for example:
+//
+//     DEBUG.Allows(ERROR) => true
 type Level byte
 
 // Allows returns true if the level allows the specified level;
