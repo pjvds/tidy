@@ -1,5 +1,7 @@
 package tidy
 
+import "errors"
+
 func Configure() config {
 	return config{}
 }
@@ -24,6 +26,16 @@ func (this config) LogFromLevel(level Level) toBuilder {
 		level: level,
 		cfg:   this,
 	}
+}
+
+func (this config) BuildDefault() error {
+	if len(this.backends) == 0 {
+		return errors.New("no backend found in config, forgot Configure().To() call?")
+	}
+
+	// TODO: support multiple backends
+	defaulBackend = this.backends[0]
+	return nil
 }
 
 type BackendBuilder interface {
