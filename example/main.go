@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	tidy.Configure().LogFromLevel(tidy.DEBUG).To(logentries.Configure("TOKEN").TCP())
+	tidy.Configure().LogFromLevel(tidy.DEBUG).To(logentries.Configure("TOKEN").TCP()).BuildDefault()
 
 	log := tidy.GetLogger()
 	log.V(tidy.INFO).With("foo", "bar").Write("info message")
