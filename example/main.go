@@ -1,12 +1,9 @@
 package main
 
-import (
-	"github.com/pjvds/tidy"
-	"github.com/pjvds/tidy/logentries"
-)
+import "github.com/pjvds/tidy"
 
 func main() {
-	tidy.Configure().LogFromLevel(tidy.DEBUG).To(logentries.Configure("TOKEN").TCP()).BuildDefault()
+	tidy.Configure().LogFromLevel(tidy.DEBUG).To(tidy.Console).BuildDefault()
 
 	log := tidy.GetLogger()
 	log.V(tidy.INFO).With("foo", "bar").Write("info message")
