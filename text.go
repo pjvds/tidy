@@ -54,3 +54,14 @@ func (this ColoredTextFormatter) FormatTo(writer io.Writer, entry Entry) error {
 	_, err := buffer.WriteTo(writer)
 	return err
 }
+
+var (
+	Console consoleBackendBuilder
+)
+
+type consoleBackendBuilder struct {
+}
+
+func (this consoleBackendBuilder) Build() Backend {
+	return &ColoredConsoleBackend{}
+}
