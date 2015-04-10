@@ -3,6 +3,7 @@ package logentries_test
 import (
 	"fmt"
 	"testing"
+	"time"
 
 	"github.com/pjvds/tidy"
 	"github.com/pjvds/tidy/logentries"
@@ -17,9 +18,13 @@ func TestLogentriesBackend(t *testing.T) {
 	expected := fmt.Sprintf("%vDEBUG (module): foobar\n", token)
 	udp.ShouldReceiveOnly(t, expected, func() {
 		backend := logentries.Configure(token).Address(address).Build()
-		log := tidy.NewLogger(tidy.NewModule("module"), backend)
-
-		log.Debug("foobar")
+		entry := tidy.Entry{
+			Timestamp: time.Now(),
+			Module:    tidy.NewModule("module"),
+			Level:     tidy.DEBUG,
+			Message:   "foobar",
+		}
+		backend.Log(entry)
 	})
 }
 
