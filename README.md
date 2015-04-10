@@ -8,7 +8,7 @@ Flexible structured logging for Go that is not fast by accident.
 // simple fluent configuration API
 tidy.Configure()
   .LogFromLevel(tidy.DEBUG).To(tidy.Console)
-  .LogFromLevel(tify.INFO).To(logentries.Token(token))
+  .LogFromLevel(tidy.INFO).To(logentries.Token(token))
   .BuildDefault()
 
 // get a logger for the current context
