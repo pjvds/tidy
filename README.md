@@ -6,6 +6,8 @@ Flexible structured logging for Go that is not fast by accident.
 
 ``` go
 // simple fluent configuration API
+// with loggers to console, or for example
+// external services as logentries.com
 tidy.Configure()
   .LogFromLevel(tidy.DEBUG).To(tidy.Console)
   .LogFromLevel(tidy.INFO).To(logentries.Token(token))
@@ -23,4 +25,10 @@ log.Withs(tidy.Fields{
   "hash": params.ByName("hash"),
   "url": request.Url,
 ).Warn("unauthorized request")
+```
+
+## Output example
+
+``` text
+08:45:11 W (module): unauthorized request   → username=catty hash=$a34xV url=/list/5
 ```
