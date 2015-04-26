@@ -168,6 +168,7 @@ func (this Logger) Panicf(format string, args ...interface{}) {
 	panic(err)
 }
 
+// TODO: this is still a very experimental method!!
 func (this Logger) V(level Level) verbosity {
 	return verbosity{
 		enabled: this.IsEnabled(level),
