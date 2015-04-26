@@ -20,7 +20,7 @@ func main() {
 	log.Debug("debug")
 
 	// include many fields at once.
-	log.WithFields(tidy.Fields{
+	log.Withs(tidy.Fields{
 		"foo": "bar",
 		"baz": 42,
 	}).Info("hello world")
