@@ -50,12 +50,12 @@ func NewLogger(module Module, backend Backend) Logger {
 	}
 }
 
-// Obsolete: use With instead.
+// Obsolete: use With instead. This method will be removed soon!
 func (this Logger) WithField(key string, value interface{}) Logger {
 	return this.With(key, value)
 }
 
-// Obsolete: use Withs instead.
+// Obsolete: use Withs instead. This method will be removed soon!
 func (this Logger) WithFields(fields Fields) Logger {
 	return this.Withs(fields)
 }
