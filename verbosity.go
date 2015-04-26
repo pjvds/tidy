@@ -1,5 +1,9 @@
 package tidy
 
+// TODO:
+// this file is VERY EXPERIMENTAL!
+// it is just a tryout to find a good API to prevent unnecessary argument evaluation.
+
 type verbosity struct {
 	enabled bool
 	level   Level
