@@ -17,7 +17,6 @@ func (this PlainTextFormatter) FormatTo(writer io.Writer, entry Entry) error {
 
 func (PlainTextFormatter) Format(entry Entry) *FreeableBuffer {
 	buffer := NewBuffer()
-	defer buffer.Free()
 
 	// TODO: make format configurable
 	//buffer.WriteString(entry.Timestamp.Format("15:04:05.000 "))
