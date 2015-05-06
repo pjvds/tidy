@@ -7,7 +7,15 @@ import (
 
 type PlainTextFormatter struct{}
 
-func (PlainTextFormatter) FormatTo(writer io.Writer, entry Entry) error {
+func (this PlainTextFormatter) FormatTo(writer io.Writer, entry Entry) error {
+	buffer := this.Format(entry)
+	defer buffer.Free()
+
+	_, err := buffer.WriteTo(writer)
+	return err
+}
+
+func (PlainTextFormatter) Format(entry Entry) *FreeableBuffer {
 	buffer := NewBuffer()
 	defer buffer.Free()
 
@@ -29,8 +37,5 @@ func (PlainTextFormatter) FormatTo(writer io.Writer, entry Entry) error {
 		}
 	}
 
-	buffer.Write(newline)
-
-	_, err := buffer.WriteTo(writer)
-	return err
+	return buffer
 }
