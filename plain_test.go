@@ -24,5 +24,5 @@ func TestPlain(t *testing.T) {
 	}
 
 	plain.FormatTo(buffer, entry)
-	assert.Equal(t, "DEBUG (tidy_test): log message\t foo=bar\n", buffer.String())
+	assert.Equal(t, "DEBUG (tidy_test): log message\t foo=bar", buffer.String())
 }
