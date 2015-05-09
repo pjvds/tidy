@@ -4,12 +4,15 @@ import (
 	"fmt"
 	"os"
 	"time"
+
+	"golang.org/x/net/context"
 )
 
 // Immutable logger context.
 type Logger struct {
-	module Module
-	fields Fields
+	module  Module
+	fields  Fields
+	context context.Context
 
 	backend LeveledBackend
 }
@@ -48,6 +51,16 @@ func NewLogger(module Module, backend Backend) Logger {
 		// TODO: make configurable
 		backend: NewLeveledBackend(DEBUG, backend),
 	}
+}
+
+// Context returns a copy of the logger with the provides context that
+// will be associated with the entries it procudes.
+//
+// Some backends require it to accociate log entries with a certain context
+// like incomming http requests.
+func (this Logger) Context(ctx context.Context) Logger {
+	this.context = ctx
+	return this
 }
 
 // Obsolete: use With instead. This method will be removed soon!

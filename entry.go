@@ -1,6 +1,10 @@
 package tidy
 
-import "time"
+import (
+	"time"
+
+	"golang.org/x/net/context"
+)
 
 // Represents a single log entry.
 type Entry struct {
@@ -18,4 +22,11 @@ type Entry struct {
 
 	// The fields for this entry.
 	Fields Fields
+
+	// The context of the logger
+	// that created this Entry. Can be nil.
+	//
+	// Some backend require a context for example to associate
+	// logging entries with incoming http request.
+	Context context.Context
 }
