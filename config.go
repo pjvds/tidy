@@ -46,6 +46,16 @@ func (this config) Build() (Logger, error) {
 	return NewLogger(GetModuleFromCaller(1), this.backends[0]), nil
 }
 
+func (this config) MustBuild() Logger {
+	logger, err := this.Build()
+
+	if err != nil {
+		panic(err)
+	}
+
+	return logger
+}
+
 type BackendBuilder interface {
 	Build() Backend
 }
