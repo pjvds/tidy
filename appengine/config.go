@@ -5,7 +5,7 @@ import "github.com/pjvds/tidy"
 type Config struct {
 }
 
-func Configure(token string) Config {
+func Configure() Config {
 	return Config{}
 }
 
