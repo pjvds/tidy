@@ -38,6 +38,14 @@ func (this config) BuildDefault() error {
 	return nil
 }
 
+func (this config) Build() (Logger, error) {
+	if len(this.backends) == 0 {
+		return Logger{}, errors.New("no backend found in config, forgot Configure().To() call?")
+	}
+
+	return NewLogger(GetModuleFromCaller(1), this.backends[0]), nil
+}
+
 type BackendBuilder interface {
 	Build() Backend
 }
