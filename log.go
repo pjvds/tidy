@@ -53,13 +53,13 @@ func NewLogger(module Module, backend Backend) Logger {
 	}
 }
 
-// Context returns a copy of the logger with the provides context that
-// will be associated with the entries it procudes.
+// Context returns a copy of the current Logger with the
+// context set to the specified value.
 //
-// Some backends require it to accociate log entries with a certain context
-// like incomming http requests.
-func (this Logger) Context(ctx context.Context) Logger {
-	this.context = ctx
+// The context is usually used by backends to relate log entries
+// to the context of a inflight http request.
+func (this Logger) Context(context context.Context) Logger {
+	this.context = context
 	return this
 }
 
@@ -124,6 +124,7 @@ func (this Logger) log(level Level, msg string) {
 		Level:     level,
 		Message:   msg,
 		Fields:    this.fields,
+		Context:   this.context,
 	})
 }
 
