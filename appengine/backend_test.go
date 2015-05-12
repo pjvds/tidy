@@ -24,3 +24,8 @@ func TestBackendInvokesInternalLogger(t *testing.T) {
 		t.Fatalf("internal logger never called")
 	}
 }
+
+func TestBackendDoesNotPanicOnNilContext(t *testing.T) {
+	logger := tidy.Configure().LogFromLevel(tidy.DEBUG).To(Configure()).MustBuild()
+	logger.Context(nil).Debug("foobar")
+}
