@@ -8,7 +8,7 @@ import (
 )
 
 func TestLoggerContext(t *testing.T) {
-	logger := NewLogger(GetModuleFromCaller(0), Console.Build())
+	logger := NewLogger(GetModuleFromCaller(0), defaulBackend)
 
 	ctx := context.Background()
 	logger = logger.Context(ctx)
