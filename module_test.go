@@ -26,3 +26,19 @@ func TestGetModuleFromCaller(t *testing.T) {
 func TestGetModuleFromCallerAtInit(t *testing.T) {
 	assert.Equal(t, moduleAtInit.String(), "tidy_test")
 }
+
+func TestGetModuleFromInlineFunc(t *testing.T) {
+	assert.Equal(t, "tidy_test", func() tidy.Module {
+		return tidy.GetModuleFromCaller(0)
+	}().String())
+}
+
+type foo struct{}
+
+func (this foo) GetModule() tidy.Module {
+	return tidy.GetModuleFromCaller(0)
+}
+
+func TestGetModuleFromAttachedFunction(t *testing.T) {
+	assert.Equal(t, "tidy_test", foo{}.GetModule().String())
+}
