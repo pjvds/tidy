@@ -32,7 +32,7 @@ func TestBackendInvokesInternalLogger(t *testing.T) {
 		t.Fatalf("internal logger never called")
 	}
 
-	assert.Equal(t, 0, passedLevel)
+	assert.Equal(t, int64(0), passedLevel)
 	assert.Equal(t, "DEBUG (tidy.config): foobar", passedFormat)
 }
 
