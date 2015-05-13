@@ -27,6 +27,6 @@ type Entry struct {
 	// that created this Entry. Can be nil.
 	//
 	// Some backend require a context for example to associate
-	// logging entries with incoming http request.
+	// logging entries with in-flight http request.
 	Context context.Context
 }
