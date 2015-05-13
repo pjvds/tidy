@@ -43,7 +43,7 @@ func (this config) Build() (Logger, error) {
 		return Logger{}, errors.New("no backend found in config, forgot Configure().To() call?")
 	}
 
-	return NewLogger(GetModuleFromCaller(1), this.backends[0]), nil
+	return NewLogger(GetModuleFromCaller(2), this.backends[0]), nil
 }
 
 func (this config) MustBuild() Logger {
