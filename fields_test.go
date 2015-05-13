@@ -29,6 +29,20 @@ func TestFieldsInitialLen(t *testing.T) {
 	}.Len())
 }
 
+func TestFieldsJoin(t *testing.T) {
+	fields := tidy.Fields{
+		"foo": "bar",
+	}
+	otherFields := tidy.Fields{
+		"baz": 42,
+	}
+
+	assert.Equal(t, tidy.Fields{
+		"foo": "bar",
+		"baz": 42,
+	}, fields.Join(otherFields))
+}
+
 func TestFieldsClone(t *testing.T) {
 	fields := tidy.Fields{
 		"foo": "bar",
