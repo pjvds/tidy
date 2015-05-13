@@ -88,6 +88,7 @@ func (this Logger) With(key string, value interface{}) Logger {
 		module:  this.module,
 		fields:  clone,
 		backend: this.backend,
+		context: this.context,
 	}
 }
 
@@ -97,6 +98,7 @@ func (this Logger) Withs(fields Fields) Logger {
 		module:  this.module,
 		fields:  this.fields.Join(fields),
 		backend: this.backend,
+		context: this.context,
 	}
 }
 
