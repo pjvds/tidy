@@ -51,11 +51,13 @@ func GetModuleFromCaller(depth int) Module {
 
 	// The function name is the complete package path and function name without signature seperated by a dot.
 	// e.q.: github.com/pjvds/tidy.GetLogger
+	// e.q.: github.com/pjvds/tidy.Type.GetLogger
 	name := function.Name()
 
-	lastDotIndex := strings.LastIndex(name, ".")
+	lastSlash := strings.LastIndex(name, "/")
+	firstDotAfterLastSlash := strings.Index(name[lastSlash:], ".")
 
-	return NewModule(name[0:lastDotIndex])
+	return NewModule(name[lastSlash : lastSlash+firstDotAfterLastSlash])
 }
 
 func (this Module) String() string {
