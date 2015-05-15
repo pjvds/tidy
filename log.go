@@ -83,23 +83,16 @@ func (this Logger) With(key string, value interface{}) Logger {
 	}
 
 	clone[key] = value
+	this.fields = clone
 
-	return Logger{
-		module:  this.module,
-		fields:  clone,
-		backend: this.backend,
-		context: this.context,
-	}
+	return this
 }
 
 // Withs returns a copy of the current Logger with the additional specified fields.
 func (this Logger) Withs(fields Fields) Logger {
-	return Logger{
-		module:  this.module,
-		fields:  this.fields.Join(fields),
-		backend: this.backend,
-		context: this.context,
-	}
+	this.fields = this.fields.Join(fields)
+
+	return this
 }
 
 func (this Logger) IsEnabled(level Level) bool {

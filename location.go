@@ -15,13 +15,13 @@ type Location string
 
 // GetLocation returns the location of the caller.
 func GetLocation(depth int) Location {
-	_, file, line, ok := runtime.Caller(1 + depth)
+	var location Location
 
-	if !ok {
-		return Location("")
+	if _, file, line, ok := runtime.Caller(1 + depth); ok {
+		location = Location(filepath.Base(file) + ":" + strconv.Itoa(line))
 	}
 
-	return Location(filepath.Base(file) + ":" + strconv.Itoa(line))
+	return location
 }
 
 func (this Location) IsEmpty() bool {
