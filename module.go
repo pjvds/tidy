@@ -50,9 +50,10 @@ func GetModuleFromCaller(depth int) Module {
 	}
 
 	// The function name is the complete package path and function name without signature seperated by a dot.
-	// e.q.: github.com/pjvds/tidy.GetLogger
-	// e.q.: github.com/pjvds/tidy.Type.GetLogger
-	// e.q.: appengine
+	// for example:
+	// - fmt.Sprintf
+	// - github.com/pjvds/tidy.GetLogger
+	// - github.com/pjvds/tidy.Type.GetLogger
 	name := function.Name()
 
 	lastSlash := strings.LastIndex(name, "/")
