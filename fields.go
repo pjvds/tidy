@@ -36,11 +36,15 @@ func (this Fields) Clone(grow int) Fields {
 // Join creates a new Fields instance with the content of this instance and
 // the specified one.
 func (this Fields) Join(fields Fields) Fields {
-	joined := this.Clone(fields.Len())
+	if fields.Len() > 0 {
+		joined := this.Clone(fields.Len())
 
-	for key, value := range fields {
-		joined[key] = value
+		for key, value := range fields {
+			joined[key] = value
+		}
+
+		return joined
 	}
 
-	return joined
+	return this
 }
