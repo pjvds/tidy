@@ -17,6 +17,7 @@ var colors = [][]byte{
 var reset = []byte("\033[0m")
 var newline = []byte("\n")
 var whitespace = []byte(" ")
+var colon = []byte(":")
 
 type ColoredTextFormatter struct{}
 
@@ -25,9 +26,14 @@ func (this ColoredTextFormatter) FormatTo(writer io.Writer, entry Entry) error {
 	defer buffer.Free()
 
 	color := colors[entry.Level]
-
 	buffer.Write(color)
-	buffer.WriteString(entry.Timestamp.Format("15:04:05 "))
+
+	buffer.WriteTwoDigits(entry.Timestamp.Hour())
+	buffer.Write(colon)
+	buffer.WriteTwoDigits(entry.Timestamp.Minute())
+	buffer.Write(colon)
+	buffer.WriteTwoDigits(entry.Timestamp.Second())
+
 	buffer.WriteString(chars[entry.Level])
 	buffer.WriteString(" ⟨")
 	buffer.WriteString(entry.Module.String())
