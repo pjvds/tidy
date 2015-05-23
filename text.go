@@ -21,7 +21,7 @@ var colon = []byte(":")
 
 type ColoredTextFormatter struct{}
 
-func (this ColoredTextFormatter) FormatTo(writer io.Writer, entry Entry) error {
+func (this ColoredTextFormatter) Format(entry Entry) *FreeableBuffer {
 	buffer := NewBuffer()
 	defer buffer.Free()
 
@@ -56,6 +56,12 @@ func (this ColoredTextFormatter) FormatTo(writer io.Writer, entry Entry) error {
 	}
 
 	buffer.Write(newline)
+	return buffer
+}
+
+func (this ColoredTextFormatter) FormatTo(writer io.Writer, entry Entry) error {
+	buffer := this.Format(entry)
+	defer buffer.Free()
 
 	_, err := buffer.WriteTo(writer)
 	return err
