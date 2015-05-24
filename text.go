@@ -23,7 +23,6 @@ type ColoredTextFormatter struct{}
 
 func (this ColoredTextFormatter) Format(entry Entry) *FreeableBuffer {
 	buffer := NewBuffer()
-	defer buffer.Free()
 
 	color := colors[entry.Level]
 	buffer.Write(color)
