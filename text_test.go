@@ -103,19 +103,14 @@ func BenchmarkSmallTextColoredTextFormatter(b *testing.B) {
 	}
 
 	formatter := &ColoredTextFormatter{}
-	lengthRecorder := &LengthRecorder{}
-	devNull := &DevNullWriter{}
-
-	if err := formatter.FormatTo(lengthRecorder, entry); err != nil {
-		b.Fatalf("failed to write: %v", err.Error())
-	}
-	length := int64(lengthRecorder.Length)
+	buffer := formatter.Format(entry)
+	length := int64(buffer.Len())
 
 	b.ResetTimer()
 	b.SetBytes(length)
 
 	for n := 0; n < b.N; n++ {
-		formatter.FormatTo(devNull, entry)
+		formatter.Format(entry).Free()
 	}
 }
 
