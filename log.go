@@ -3,6 +3,7 @@ package tidy
 import (
 	"fmt"
 	"os"
+	"reflect"
 	"time"
 
 	"golang.org/x/net/context"
@@ -113,12 +114,21 @@ func (this Logger) IsError() bool {
 }
 
 func (this Logger) log(level Level, msg string) {
+	location := GetLocation(2)
+	fields := Fields{
+		"location": location.String(),
+	}
+
+	if this.fields.Len() > 0 {
+		fields = fields.Join(this.fields)
+	}
+
 	this.backend.Log(Entry{
 		Timestamp: time.Now(),
 		Module:    this.module,
 		Level:     level,
 		Message:   msg,
-		Fields:    this.fields,
+		Fields:    fields,
 		Context:   this.context,
 	})
 }
