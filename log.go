@@ -133,6 +133,13 @@ func (this Logger) log(level Level, msg string) {
 	})
 }
 
+func (this Logger) WithError(err error) Logger {
+	return this.WithFields(Fields{
+		"error":      err.Error(),
+		"error_type": reflect.TypeOf(err),
+	})
+}
+
 func (this Logger) Debug(msg string) {
 	this.log(DEBUG, msg)
 }
