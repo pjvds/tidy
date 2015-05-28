@@ -133,6 +133,10 @@ func (this Logger) log(level Level, msg string) {
 	})
 }
 
+// WithError returns a copy of the current Logger with the two additional fields `error` and `error_type`.
+//
+// `error` is set to the error message of the error.
+// `error_type` is set to the error type of error, like: "mypackage.CustemError".
 func (this Logger) WithError(err error) Logger {
 	return this.WithFields(Fields{
 		"error":      err.Error(),
