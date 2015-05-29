@@ -123,14 +123,16 @@ func (this Logger) log(level Level, msg string) {
 		fields = fields.Join(this.fields)
 	}
 
-	this.backend.Log(Entry{
-		Timestamp: time.Now(),
-		Module:    this.module,
-		Level:     level,
-		Message:   msg,
-		Fields:    fields,
-		Context:   this.context,
-	})
+	if this.backend.Backend != nil {
+		this.backend.Backend.Log(Entry{
+			Timestamp: time.Now(),
+			Module:    this.module,
+			Level:     level,
+			Message:   msg,
+			Fields:    fields,
+			Context:   this.context,
+		})
+	}
 }
 
 // WithError returns a copy of the current Logger with the two additional fields `error` and `error_type`.
