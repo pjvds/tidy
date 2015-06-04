@@ -33,7 +33,7 @@ func TestBackendInvokesInternalLogger(t *testing.T) {
 	}
 
 	assert.Equal(t, int64(0), passedLevel)
-	assert.Equal(t, "DEBUG (appengine): foobar", passedFormat)
+	assert.Equal(t, "DEBUG (appengine): foobar\t location=backend_test.go:29", passedFormat)
 }
 
 func TestBackendDoesNotPanicOnNilContext(t *testing.T) {
