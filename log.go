@@ -147,29 +147,61 @@ func (this Logger) WithError(err error) Logger {
 }
 
 func (this Logger) Debug(msg string) {
+	if !this.IsDebug() {
+		return
+	}
+
 	this.log(DEBUG, msg)
 }
 func (this Logger) Debugf(format string, args ...interface{}) {
+	if !this.IsDebug() {
+		return
+	}
+
 	msg := fmt.Sprintf(format, args...)
 	this.Debug(msg)
 }
 func (this Logger) Info(msg string) {
+	if !this.IsInfo() {
+		return
+	}
+
 	this.log(INFO, msg)
 }
 func (this Logger) Infof(format string, args ...interface{}) {
+	if !this.IsInfo() {
+		return
+	}
+
 	msg := fmt.Sprintf(format, args...)
 	this.Info(msg)
 }
 func (this Logger) Warn(msg string) {
+	if !this.IsWarn() {
+		return
+	}
+
 	this.log(WARN, msg)
 }
 func (this Logger) Warnf(format string, args ...interface{}) {
+	if !this.IsWarn() {
+		return
+	}
+
 	this.log(WARN, fmt.Sprintf(format, args...))
 }
 func (this Logger) Error(msg string) {
+	if !this.IsError() {
+		return
+	}
+
 	this.log(ERROR, msg)
 }
 func (this Logger) Errorf(format string, args ...interface{}) {
+	if !this.IsError() {
+		return
+	}
+
 	this.log(ERROR, fmt.Sprintf(format, args...))
 }
 
@@ -191,6 +223,7 @@ func (this Logger) Fatalf(format string, args ...interface{}) {
 
 func (this Logger) Panic(err error) {
 	this.log(ERROR, err.Error())
+
 	panic(err)
 }
 
