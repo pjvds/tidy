@@ -16,6 +16,7 @@ func NewLeveledBackend(level Level, backend Backend) LeveledBackend {
 }
 
 func (this LeveledBackend) IsEnabledFor(level Level, module Module) bool {
+	// TODO: respect module
 	return this.Level >= level
 }
 
