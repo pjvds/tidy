@@ -21,23 +21,47 @@ func (this *backend) Log(entry tidy.Entry) {
 		return
 	}
 
+	// // The internal.Logf method of the appengine package will
+	// // fail if the following context key is not set, since it
+	// // expects a *context type there.
+	// //
+	// // See: http://git.io/vIG06
+	// if netctx := entry.Context.Value(&"holds a *context"); netctx == nil {
+	// 	return
+	// }
+	//
+	//   ^
+	//   |
+	//   |
+	//  DOES NOT WORK BECAUSE "holds a *context" IS REFERENCED IN THE INTERNAL
+	//  PACKAGE!!!
+
 	buffer := this.formatter.Format(entry)
 	defer buffer.Free()
 
-	switch entry.Level {
-	case tidy.DEBUG:
-		log.Debugf(entry.Context, buffer.String())
-	case tidy.INFO:
-		log.Infof(entry.Context, buffer.String())
-	case tidy.NOTICE:
-		log.Infof(entry.Context, buffer.String())
-	case tidy.WARN:
-		log.Warningf(entry.Context, buffer.String())
-	case tidy.ERROR:
-		log.Errorf(entry.Context, buffer.String())
-	case tidy.FATAL:
-		log.Criticalf(entry.Context, buffer.String())
-	}
+	func(message string) {
+		defer func() {
+			if recovered := recover(); recovered != nil {
+				// TODO: log to internal backend logger,
+				// for now just eat up.
+			}
+		}()
+
+		switch entry.Level {
+		case tidy.DEBUG:
+			log.Debugf(entry.Context, message)
+		case tidy.INFO:
+			log.Infof(entry.Context, message)
+		case tidy.NOTICE:
+			log.Infof(entry.Context, message)
+		case tidy.WARN:
+			log.Warningf(entry.Context, message)
+		case tidy.ERROR:
+			log.Errorf(entry.Context, message)
+		case tidy.FATAL:
+			log.Criticalf(entry.Context, message)
+		}
+	}(buffer.String())
 }
 
 func (this *backend) Flush() error {
