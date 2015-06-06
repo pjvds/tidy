@@ -40,3 +40,8 @@ func TestBackendDoesNotPanicOnNilContext(t *testing.T) {
 	logger := tidy.Configure().LogFromLevel(tidy.DEBUG).To(Configure()).MustBuild()
 	logger.Context(nil).Debug("foobar")
 }
+
+func TestBackendDoesNotPanicOnInvalidContext(t *testing.T) {
+	logger := tidy.Configure().LogFromLevel(tidy.DEBUG).To(Configure()).MustBuild()
+	logger.Context(context.Background()).Debug("foobar")
+}
