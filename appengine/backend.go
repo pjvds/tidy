@@ -9,11 +9,6 @@ type backend struct {
 	formatter tidy.PlainTextFormatter
 }
 
-func (this *backend) IsEnabledFor(level tidy.Level, module tidy.Module) bool {
-	// todo: make this configurable
-	return true
-}
-
 func (this *backend) Log(entry tidy.Entry) {
 	// ignore all requests that have no context, because
 	// this causes the appengine logger to fail with a panic.
