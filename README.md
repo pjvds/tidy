@@ -21,8 +21,7 @@ log.With("user", session.User).Debug("user authenticated")
 
 // log entry with multiple fields
 log.Withs(tidy.Fields{
-  "username": params.ByName("username"),
-  "hash": params.ByName("hash"),
+  "user": session.User,
   "url": request.Url,
 ).Warn("unauthorized request")
 ```
@@ -30,5 +29,6 @@ log.Withs(tidy.Fields{
 ## Output example
 
 ``` text
-08:45:11 W (module): unauthorized request   → username=catty hash=$a34xV url=/list/5
+08:45:10 W (module): user authenticated     → username=catty
+08:45:11 W (module): unauthorized request   → username=catty url=/list/5
 ```
