@@ -35,6 +35,7 @@ func (this *backend) Log(entry tidy.Entry) {
 	defer buffer.Free()
 
 	func(message string) {
+		// when the `appengine/log` package method panic, recover from it.
 		defer func() {
 			if recovered := recover(); recovered != nil {
 				// TODO: log to internal backend logger,
