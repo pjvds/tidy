@@ -139,6 +139,8 @@ func (this Logger) log(level Level, msg string) {
 //
 // `error` is set to the error message of the error.
 // `error_type` is set to the error type of error, like: "mypackage.CustemError".
+//
+// If err is nil, the field `error` is set to "<nil>".
 func (this Logger) WithError(err error) Logger {
 	if err == nil {
 		return this.With("error", "<nil>")
