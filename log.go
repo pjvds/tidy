@@ -146,7 +146,7 @@ func (this Logger) WithError(err error) Logger {
 		return this.With("error", "<nil>")
 	}
 
-	return this.WithFields(Fields{
+	return this.Withs(Fields{
 		"error":      err.Error(),
 		"error_type": reflect.TypeOf(err),
 	})
