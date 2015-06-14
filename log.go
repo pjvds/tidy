@@ -227,12 +227,14 @@ func (this Logger) Fatalf(format string, args ...interface{}) {
 	os.Exit(255)
 }
 
+// Panic logs the error at error level and panics it.
 func (this Logger) Panic(err error) {
 	this.log(ERROR, err.Error())
 
 	panic(err)
 }
 
+// Panicf formats the message and logs it at error level and panics it.
 func (this Logger) Panicf(format string, args ...interface{}) {
 	err := fmt.Errorf(format, args...)
 	this.log(ERROR, err.Error())
