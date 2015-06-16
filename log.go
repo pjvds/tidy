@@ -219,7 +219,7 @@ func (this Logger) Fatal(msg string) {
 	os.Exit(255)
 }
 
-// Fatalf formats the messages and logs a FATAL message and then calls os.Exit(255). This causes the current program to
+// Fatalf formats the message and logs a FATAL message and then calls os.Exit(255). This causes the current program to
 // exit with the 255 status code. Conventionally, code zero indicates success, non-zero an error.
 // The program terminates immediately; deferred functions are not run.
 func (this Logger) Fatalf(format string, args ...interface{}) {
