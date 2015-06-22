@@ -36,3 +36,8 @@ func TestStringifyDerefsPointers(t *testing.T) {
 		Foo: "baz",
 	}))
 }
+
+func TestStringifyWithPrimitiveValue(t *testing.T) {
+	assert.Equal(t, "foo", tidy.Stringify("foo"))
+	assert.Equal(t, "42", tidy.Stringify(42))
+}
