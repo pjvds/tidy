@@ -16,3 +16,15 @@ func TestStringify(t *testing.T) {
 		Bar: 42,
 	}))
 }
+
+func TestStringifyPrintsPrivates(t *testing.T) {
+	assert.Equal(t, "{Foo:baz Bar:42 private:private}", tidy.Stringify(struct {
+		Foo     string
+		Bar     int
+		private string
+	}{
+		Foo:     "baz",
+		Bar:     42,
+		private: "private",
+	}))
+}
