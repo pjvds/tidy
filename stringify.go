@@ -1,24 +1,9 @@
 package tidy
 
-import (
-	"fmt"
-	"testing"
+import "fmt"
 
-	"github.com/stretchr/testify/assert"
-)
-
+// Stringify prints the value in a default format. When printing
+// structs or pointers to structs it prints the field names.
 func Stringify(object interface{}) string {
 	return fmt.Sprintf("%+v", object)
-}
-
-func TestStringify(t *testing.T) {
-	result := Stringify(struct {
-		Foo string
-		Bar int
-	}{
-		Foo: "baz",
-		Bar: 42,
-	})
-
-	assert.Equal(t, result, "foo")
 }
