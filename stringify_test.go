@@ -28,3 +28,11 @@ func TestStringifyPrintsPrivates(t *testing.T) {
 		private: "private",
 	}))
 }
+
+func TestStringifyDerefsPointers(t *testing.T) {
+	assert.Equal(t, "&{Foo:baz}", tidy.Stringify(&struct {
+		Foo string
+	}{
+		Foo: "baz",
+	}))
+}
