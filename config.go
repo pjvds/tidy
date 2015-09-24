@@ -38,6 +38,12 @@ func (this config) BuildDefault() error {
 	return nil
 }
 
+func (this config) MustBuildDefault() {
+	if err := this.BuildDefault(); err != nil {
+		panic(err)
+	}
+}
+
 func (this config) Build() (Logger, error) {
 	if len(this.backends) == 0 {
 		return Logger{}, errors.New("no backend found in config, forgot Configure().To() call?")
