@@ -27,7 +27,9 @@ type ColoredConsoleBackend struct {
 }
 
 func (this *ColoredConsoleBackend) Log(entry Entry) {
-	this.formatter.FormatTo(os.Stderr, entry)
+	if this.IsEnabledFor(entry.Level, entry.Module) {
+		this.formatter.FormatTo(os.Stderr, entry)
+	}
 }
 
 func (this *ColoredConsoleBackend) Flush() error {
