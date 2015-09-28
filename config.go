@@ -34,7 +34,8 @@ func (this config) BuildDefault() error {
 	}
 
 	// TODO: support multiple backends
-	defaulBackend = this.backends[0]
+	first := this.backends[0]
+	defaulBackend = &first
 	return nil
 }
 
