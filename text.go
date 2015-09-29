@@ -3,6 +3,7 @@ package tidy
 import (
 	"fmt"
 	"io"
+	"sort"
 )
 
 var colors = [][]byte{
@@ -44,13 +45,30 @@ func (this ColoredTextFormatter) Format(entry Entry) *FreeableBuffer {
 	if entry.Fields.Any() {
 		buffer.Write(color)
 		buffer.WriteString("\t→")
-		for key, value := range entry.Fields {
+		keys := make([]string, 0, len(entry.Fields))
+
+		for key, _ := range entry.Fields {
+			keys = append(keys, key)
+		}
+
+		sort.Strings(keys)
+
+		for _, key := range keys {
+			value := entry.Fields[key]
+
 			buffer.Write(whitespace)
 			buffer.Write(color)
 			buffer.WriteString(key)
 			buffer.Write(reset)
 			buffer.WriteString("=")
-			buffer.WriteString(fmt.Sprint(value))
+
+			valueAsString := fmt.Sprint(value)
+
+			if len(valueAsString) > 1000 {
+				valueAsString = valueAsString[0:1000] + "<truncated>"
+			}
+
+			buffer.WriteString(valueAsString)
 		}
 	}
 
