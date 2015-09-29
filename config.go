@@ -33,9 +33,8 @@ func (this config) BuildDefault() error {
 		return errors.New("no backend found in config, forgot Configure().To() call?")
 	}
 
-	// TODO: support multiple backends
-	first := this.backends[0]
-	defaulBackend = &first
+	defaulBackend.ChangeLevel(this.backends[0].Level)
+	defaulBackend.ChangeBackend(this.backends[0].Backend)
 	return nil
 }
 

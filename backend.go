@@ -1,6 +1,44 @@
 package tidy
 
-import "os"
+import (
+	"os"
+	"sync/atomic"
+)
+
+func NewRootBackend(level Level, backend Backend) *RootBackend {
+	root := RootBackend{}
+	root.level.Store(level)
+	root.backend.Store(backend)
+
+	return &root
+}
+
+type RootBackend struct {
+	level   atomic.Value
+	backend atomic.Value
+}
+
+func (this *RootBackend) ChangeLevel(level Level) {
+	this.level.Store(level)
+}
+
+func (this *RootBackend) ChangeBackend(backend Backend) {
+	this.backend.Store(backend)
+}
+
+func (this *RootBackend) IsEnabledFor(level Level, module Module) bool {
+	// TODO: respect module
+	return this.level.Load().(Level).Allows(level)
+}
+func (this *RootBackend) Log(entry Entry) {
+	if this.IsEnabledFor(entry.Level, entry.Module) {
+		this.backend.Load().(Backend).Log(entry)
+	}
+}
+
+func (this *RootBackend) Flush() error {
+	return this.backend.Load().(Backend).Flush()
+}
 
 type LeveledBackend struct {
 	Level Level
@@ -21,15 +59,11 @@ func (this LeveledBackend) IsEnabledFor(level Level, module Module) bool {
 }
 
 type ColoredConsoleBackend struct {
-	LeveledBackend
-
 	formatter ColoredTextFormatter
 }
 
 func (this *ColoredConsoleBackend) Log(entry Entry) {
-	if this.IsEnabledFor(entry.Level, entry.Module) {
-		this.formatter.FormatTo(os.Stderr, entry)
-	}
+	this.formatter.FormatTo(os.Stderr, entry)
 }
 
 func (this *ColoredConsoleBackend) Flush() error {

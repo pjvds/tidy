@@ -18,18 +18,12 @@ type Logger struct {
 	backend LeveledBackend
 }
 
-var defaulBackend *LeveledBackend
+var defaulBackend *RootBackend
 
 func init() {
-	dd := ColoredConsoleBackend{
-		LeveledBackend: LeveledBackend{
-			Level: DEBUG,
-		},
+	defaulBackend = NewRootBackend(DEBUG, &ColoredConsoleBackend{
 		formatter: ColoredTextFormatter{},
-	}
-	dd.LeveledBackend.Backend = &dd
-
-	defaulBackend = &dd.LeveledBackend
+	})
 }
 
 func GetLogger() Logger {
