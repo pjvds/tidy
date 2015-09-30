@@ -21,7 +21,13 @@ type Logger struct {
 var defaulBackend *RootBackend
 
 func init() {
-	defaulBackend = NewRootBackend(DEBUG, &ColoredConsoleBackend{
+	level := os.Getenv("LOG")
+
+	if len(level) == 0 {
+		level = "DEBUG"
+	}
+
+	defaulBackend = NewRootBackend(ParseLevel(level), &ColoredConsoleBackend{
 		formatter: ColoredTextFormatter{},
 	})
 }
