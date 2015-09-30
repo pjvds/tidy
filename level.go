@@ -1,5 +1,7 @@
 package tidy
 
+import "strings"
+
 const (
 	FATAL Level = iota
 	ERROR
@@ -47,4 +49,25 @@ func (this Level) Allows(other Level) bool {
 // String returns the level fullname, like: FATAL, ERROR or DEBUG.
 func (this Level) String() string {
 	return names[this]
+}
+
+// ParseLevel parses the given string to an Level. If the level
+// is empty or not recognized, DEBUG is returned.
+func ParseLevel(level string) Level {
+	switch strings.ToUpper(level) {
+	case "FATAL":
+		return FATAL
+	case "ERROR":
+		return ERROR
+	case "WARN":
+		return WARN
+	case "NOTICE":
+		return NOTICE
+	case "INFO":
+		return INFO
+	case "DEBUG":
+		return DEBUG
+	default:
+		return DEBUG
+	}
 }
