@@ -88,3 +88,22 @@ func TestInfo(t *testing.T) {
 func TestDebug(t *testing.T) {
 	assert.Equal(t, "DEBUG", DEBUG.String())
 }
+
+func TestParseLevel(t *testing.T) {
+	scenarios := map[string]Level{
+		"FATAL":     FATAL,
+		"ERROR":     ERROR,
+		"WARN":      WARN,
+		"INFO":      INFO,
+		"DEBUG":     DEBUG,
+		"DeBuG":     DEBUG,
+		"debug":     DEBUG,
+		"":          DEBUG,
+		"@$#!%^&^*": DEBUG,
+	}
+
+	for input, expected := range scenarios {
+		actual := ParseLevel(input)
+		assert.Equal(t, expected, actual, fmt.Sprintf("scenario for %v failed", input))
+	}
+}
