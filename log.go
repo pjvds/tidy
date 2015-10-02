@@ -18,18 +18,10 @@ type Logger struct {
 	backend LeveledBackend
 }
 
-var defaulBackend *RootBackend
+var defaulBackend = &RootBackend{}
 
 func init() {
-	level := os.Getenv("LOG")
-
-	if len(level) == 0 {
-		level = "DEBUG"
-	}
-
-	defaulBackend = NewRootBackend(ParseLevel(level), &ColoredConsoleBackend{
-		formatter: ColoredTextFormatter{},
-	})
+	Configure().LogFromLevelSpecifiedByEnvironment().To(Console).MustBuildDefault()
 }
 
 func GetLogger() Logger {
