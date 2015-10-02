@@ -1,6 +1,9 @@
 package tidy
 
-import "errors"
+import (
+	"errors"
+	"os"
+)
 
 func Configure() config {
 	return config{}
@@ -13,6 +16,15 @@ type config struct {
 type toBuilder struct {
 	level Level
 	cfg   config
+}
+
+func (this config) LogFromLevelSpecifiedByEnvironment() toBuilder {
+	level := ParseLevel(os.Getenv("LOG"))
+
+	return toBuilder{
+		level: level,
+		cfg:   this,
+	}
 }
 
 func (this toBuilder) To(backend BackendBuilder) config {
