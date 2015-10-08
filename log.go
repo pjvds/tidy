@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"reflect"
+	"runtime"
 	"time"
 
 	"golang.org/x/net/context"
@@ -89,6 +90,15 @@ func (this Logger) Withs(fields Fields) Logger {
 	this.fields = this.fields.Join(fields)
 
 	return this
+}
+
+// WithStacktrace returns a copy of the logger with an additional field `stacktrace`
+// that includes the stacktrace for the current goroutine.
+func (this Logger) WithStacktrace() Logger {
+	buffer := make([]byte, 1e8)
+	written := runtime.Stack(buffer, false)
+
+	return this.With("stacktrace", string(buffer[:written]))
 }
 
 func (this Logger) IsEnabled(level Level) bool {
