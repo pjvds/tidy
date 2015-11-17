@@ -5,12 +5,43 @@ import (
 	"sync/atomic"
 )
 
+type mergeBackend []Backend
+
+func leveledsToBackends(leveleds ...LeveledBackend) []Backend {
+	backends := make([]Backend, len(leveleds))
+	for index, leveled := range leveleds {
+		backends[index] = leveled.Backend
+	}
+	return backends
+}
+
+func mergeBackends(backends ...Backend) Backend {
+	return mergeBackend(backends)
+}
+
+func (this mergeBackend) Log(entry Entry) {
+	for _, b := range this {
+		b.Log(entry)
+	}
+}
+
+func (this mergeBackend) Flush() error {
+	for _, b := range this {
+		b.Flush()
+	}
+	return nil
+}
+
 func NewRootBackend(level Level, backend Backend) *RootBackend {
 	root := RootBackend{}
 	root.level.Store(level)
 	root.backend.Store(backend)
 
 	return &root
+}
+
+type wrappedBackend struct {
+	Backend
 }
 
 type RootBackend struct {
@@ -23,7 +54,7 @@ func (this *RootBackend) ChangeLevel(level Level) {
 }
 
 func (this *RootBackend) ChangeBackend(backend Backend) {
-	this.backend.Store(backend)
+	this.backend.Store(wrappedBackend{backend})
 }
 
 func (this *RootBackend) IsEnabledFor(level Level, module Module) bool {
@@ -32,7 +63,13 @@ func (this *RootBackend) IsEnabledFor(level Level, module Module) bool {
 }
 func (this *RootBackend) Log(entry Entry) {
 	if this.IsEnabledFor(entry.Level, entry.Module) {
-		this.backend.Load().(Backend).Log(entry)
+		wrapper := this.backend.Load()
+		if wrapper == nil {
+			// no backend was stored
+			return
+		}
+		backend := wrapper.(wrappedBackend).Backend
+		backend.Log(entry)
 	}
 }
 

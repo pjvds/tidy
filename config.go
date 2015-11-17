@@ -45,8 +45,10 @@ func (this config) BuildDefault() error {
 		return errors.New("no backend found in config, forgot Configure().To() call?")
 	}
 
-	defaulBackend.ChangeLevel(this.backends[0].Level)
-	defaulBackend.ChangeBackend(this.backends[0].Backend)
+	merged := mergeBackends(leveledsToBackends(this.backends...)...)
+
+	defaulBackend.ChangeLevel(DEBUG)
+	defaulBackend.ChangeBackend(merged)
 	return nil
 }
 
