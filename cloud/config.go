@@ -1,4 +1,4 @@
-package appengine
+package cloud
 
 import (
 	"github.com/pjvds/tidy"
@@ -14,7 +14,7 @@ type Config struct {
 	opts      []cloud.ClientOption
 }
 
-func Configure(ctx, projectID, logName string, opts ...cloud.ClientOption) Config {
+func Configure(ctx context.Context, projectID, logName string, opts ...cloud.ClientOption) Config {
 	return Config{
 		ctx:       ctx,
 		projectID: projectID,

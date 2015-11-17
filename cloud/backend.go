@@ -19,9 +19,6 @@ type backend struct {
 }
 
 func (this *backend) Log(entry tidy.Entry) {
-	buffer := this.formatter.Format(entry)
-	defer buffer.Free()
-
 	payload := entry.Fields.Clone(2)
 	payload["message"] = entry.Message
 	payload["module"] = entry.Module
