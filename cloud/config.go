@@ -13,6 +13,7 @@ type Config struct {
 	logName   string
 	opts      []cloud.ClientOption
 	sync      bool
+	ping      bool
 }
 
 func Configure(ctx context.Context, projectID, logName string, opts ...cloud.ClientOption) Config {
@@ -29,6 +30,11 @@ func (this Config) Sync(sync bool) Config {
 	return this
 }
 
+func (this Config) PingOnBuild(ping bool) Config {
+	this.ping = ping
+	return this
+}
+
 // Build the backend based on the config.
 func (this Config) Build() tidy.Backend {
 	client, err := logging.NewClient(this.ctx, this.projectID, this.logName, this.opts...)
@@ -36,6 +42,12 @@ func (this Config) Build() tidy.Backend {
 	// TODO: we should be able to return this error to indicate a build failure.
 	if err != nil {
 		panic(err)
+	}
+
+	if this.ping {
+		if err := client.Ping(); err != nil {
+			panic(err)
+		}
 	}
 
 	return &backend{
