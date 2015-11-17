@@ -12,6 +12,7 @@ type Config struct {
 	projectID string
 	logName   string
 	opts      []cloud.ClientOption
+	sync      bool
 }
 
 func Configure(ctx context.Context, projectID, logName string, opts ...cloud.ClientOption) Config {
@@ -21,6 +22,11 @@ func Configure(ctx context.Context, projectID, logName string, opts ...cloud.Cli
 		logName:   logName,
 		opts:      opts,
 	}
+}
+
+func (this Config) Sync(sync bool) Config {
+	this.sync = sync
+	return this
 }
 
 // Build the backend based on the config.
@@ -34,5 +40,6 @@ func (this Config) Build() tidy.Backend {
 
 	return &backend{
 		client: client,
+		sync:   this.sync,
 	}
 }

@@ -16,6 +16,7 @@ var levels = map[tidy.Level]logging.Level{
 
 type backend struct {
 	client *logging.Client
+	sync   bool
 }
 
 func (this *backend) Log(entry tidy.Entry) {
@@ -23,10 +24,21 @@ func (this *backend) Log(entry tidy.Entry) {
 	payload["message"] = entry.Message
 	payload["module"] = entry.Module
 
-	this.client.Log(logging.Entry{
+	cloudEntry := logging.Entry{
 		Level:   levels[entry.Level],
 		Payload: payload,
-	})
+	}
+
+	var err error
+	if this.sync {
+		err = this.client.LogSync(cloudEntry)
+	} else {
+		err = this.client.Log(cloudEntry)
+	}
+
+	if err != nil {
+		panic(err)
+	}
 }
 
 func (this *backend) Flush() error {
