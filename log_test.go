@@ -15,3 +15,11 @@ func TestLoggerContext(t *testing.T) {
 
 	assert.NotNil(t, logger.context)
 }
+
+func TestLoggerStacktrace(t *testing.T) {
+	logger := NewLogger(GetModuleFromCaller(0), defaulBackend).WithStacktrace()
+
+	stacktrace, ok := logger.fields["stacktrace"]
+	assert.True(t, ok, "logger is missing stacktrace field")
+	assert.Equal(t, "foobar", stacktrace)
+}
