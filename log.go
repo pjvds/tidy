@@ -5,6 +5,7 @@ import (
 	"os"
 	"reflect"
 	"runtime"
+	"strings"
 	"time"
 
 	"golang.org/x/net/context"
@@ -98,7 +99,20 @@ func (this Logger) WithStacktrace() Logger {
 	buffer := make([]byte, 1e8)
 	written := runtime.Stack(buffer, false)
 
-	return this.With("stacktrace", string(buffer[:written]))
+	stacktrace := string(buffer[:written])
+	for n := 0; n < 3; n++ {
+		if index := strings.Index(stacktrace, "\n"); index == -1 {
+			break
+		} else {
+			stacktrace = stacktrace[index+1:]
+		}
+	}
+
+	if stacktrace[0] == '\t' {
+		stacktrace = stacktrace[1:]
+	}
+
+	return this.With("stacktrace", stacktrace)
 }
 
 func (this Logger) IsEnabled(level Level) bool {
